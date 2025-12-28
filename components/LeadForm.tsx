@@ -17,7 +17,7 @@ const SuccessModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0, y: 20 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="bg-white rounded-[2.5rem] shadow-2xl max-w-md w-full relative overflow-hidden"
+        className="bg-white rounded-[2.5rem] shadow-[0_0_50px_-12px_rgba(14,165,233,0.25)] max-w-md w-full relative overflow-hidden"
       >
         {/* Confetti/Background decoration */}
         <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-green-50 to-transparent"></div>
@@ -59,32 +59,44 @@ const SuccessModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             transition={{ delay: 0.6 }}
           >
             <h3 className="text-3xl font-extrabold text-slate-900 mb-2">Request Received!</h3>
-            <p className="text-slate-600 mb-8 leading-relaxed">
+            <p className="text-slate-600 mb-6 leading-relaxed">
               We've added you to our <span className="font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md">Priority List</span>. <br/>
               One of our experts is calculating your estimate right now.
             </p>
 
-            <div className="space-y-4">
-              <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">While you wait</p>
+            <div className="space-y-3">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">While you wait</p>
               
+              {/* Instagram Button */}
               <a 
                 href="https://www.instagram.com/star.cleaningsc/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-[2px] shadow-lg shadow-pink-500/20 transition-all hover:scale-[1.02] hover:shadow-pink-500/40"
               >
-                <div className="relative flex items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 transition-colors group-hover:bg-opacity-90">
+                <div className="relative flex items-center justify-center gap-3 rounded-2xl bg-white px-4 py-3 transition-colors group-hover:bg-opacity-90">
                    <div className="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white p-1.5 rounded-lg">
                       <Instagram className="w-5 h-5" />
                    </div>
-                   <span className="font-bold text-slate-800 text-lg">See our Recent Work</span>
-                   <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-transform" />
+                   <span className="font-bold text-slate-800 text-base">See Recent Work</span>
+                   <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-transform" />
                 </div>
+              </a>
+
+              {/* Call Now Button */}
+              <a 
+                href="tel:8432979935"
+                className="block w-full bg-white border-2 border-slate-100 hover:border-green-200 hover:bg-green-50/50 text-slate-700 font-bold py-3.5 rounded-2xl transition-all flex items-center justify-center gap-3 group shadow-sm hover:shadow-md"
+              >
+                <div className="bg-green-100 p-2 rounded-full group-hover:scale-110 transition-transform">
+                   <Phone className="w-5 h-5 text-green-600 fill-green-600/20" />
+                </div>
+                <span className="text-lg">Call Us Now</span>
               </a>
               
               <button
                 onClick={onClose}
-                className="text-slate-400 text-sm font-semibold hover:text-slate-600 transition-colors py-2"
+                className="text-slate-400 text-xs font-semibold hover:text-slate-600 transition-colors pt-2 block w-full"
               >
                 Close and return to site
               </button>
@@ -171,12 +183,15 @@ export const LeadForm: React.FC = () => {
         {showSuccessModal && <SuccessModal onClose={() => setShowSuccessModal(false)} />}
       </AnimatePresence>
 
-      <div className="bg-white/80 backdrop-blur-2xl rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(15,23,42,0.2)] p-6 md:p-10 border border-white/60 relative overflow-hidden transition-all duration-500 hover:shadow-[0_50px_100px_-20px_rgba(15,23,42,0.3)]">
+      {/* Main Form Container - Premium "App-Like" Box Shadow & Styling */}
+      <div className="bg-white/90 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_0_50px_-12px_rgba(14,165,233,0.15),0_24px_60px_-12px_rgba(15,23,42,0.15),inset_0_0_0_1px_rgba(255,255,255,0.8)] p-6 md:p-10 relative overflow-hidden transition-all duration-500 hover:shadow-[0_0_70px_-12px_rgba(14,165,233,0.25),0_30px_70px_-12px_rgba(15,23,42,0.2)]">
+        
         {/* Decorative top sheen - refined */}
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-brand-blue/50 to-transparent opacity-70"></div>
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-60"></div>
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="mb-10 text-center md:text-left relative z-10">
-          <div className="inline-flex items-center gap-2 mb-3 bg-blue-50/80 px-3 py-1.5 rounded-full border border-blue-100">
+          <div className="inline-flex items-center gap-2 mb-3 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 shadow-sm">
             <Sparkles className="w-4 h-4 text-brand-blue" />
             <span className="text-brand-blue font-bold tracking-wide text-xs uppercase">Instant Quote</span>
           </div>
@@ -200,7 +215,7 @@ export const LeadForm: React.FC = () => {
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full pl-14 pr-5 py-4 bg-white/60 border border-slate-200/80 rounded-2xl focus:bg-white focus:ring-[3px] focus:ring-brand-blue/10 focus:border-brand-blue outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-semibold shadow-sm hover:border-slate-300"
+              className="w-full pl-14 pr-5 py-4 bg-slate-50/50 border border-slate-200/60 rounded-2xl focus:bg-white focus:border-brand-blue/50 focus:ring-[4px] focus:ring-brand-blue/10 outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-bold shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:border-brand-blue/30"
             />
           </div>
 
@@ -219,7 +234,7 @@ export const LeadForm: React.FC = () => {
                 placeholder="(555) 000-0000"
                 value={formData.phone}
                 onChange={handlePhoneChange}
-                className="w-full pl-14 pr-5 py-4 bg-white/60 border border-slate-200/80 rounded-2xl focus:bg-white focus:ring-[3px] focus:ring-brand-blue/10 focus:border-brand-blue outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-semibold shadow-sm hover:border-slate-300"
+                className="w-full pl-14 pr-5 py-4 bg-slate-50/50 border border-slate-200/60 rounded-2xl focus:bg-white focus:border-brand-blue/50 focus:ring-[4px] focus:ring-brand-blue/10 outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-bold shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:border-brand-blue/30"
               />
             </div>
             <div className="relative group">
@@ -237,7 +252,7 @@ export const LeadForm: React.FC = () => {
                 pattern="[0-9]*"
                 value={formData.zipCode}
                 onChange={handleChange}
-                className="w-full pl-14 pr-5 py-4 bg-white/60 border border-slate-200/80 rounded-2xl focus:bg-white focus:ring-[3px] focus:ring-brand-blue/10 focus:border-brand-blue outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-semibold shadow-sm hover:border-slate-300"
+                className="w-full pl-14 pr-5 py-4 bg-slate-50/50 border border-slate-200/60 rounded-2xl focus:bg-white focus:border-brand-blue/50 focus:ring-[4px] focus:ring-brand-blue/10 outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-bold shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:border-brand-blue/30"
               />
             </div>
           </div>
@@ -256,7 +271,7 @@ export const LeadForm: React.FC = () => {
               placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-14 pr-5 py-4 bg-white/60 border border-slate-200/80 rounded-2xl focus:bg-white focus:ring-[3px] focus:ring-brand-blue/10 focus:border-brand-blue outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-semibold shadow-sm hover:border-slate-300"
+              className="w-full pl-14 pr-5 py-4 bg-slate-50/50 border border-slate-200/60 rounded-2xl focus:bg-white focus:border-brand-blue/50 focus:ring-[4px] focus:ring-brand-blue/10 outline-none transition-all duration-300 text-slate-900 placeholder:text-slate-400 font-bold shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:border-brand-blue/30"
             />
           </div>
 
@@ -267,7 +282,7 @@ export const LeadForm: React.FC = () => {
               name="serviceType"
               value={formData.serviceType}
               onChange={handleChange}
-              className="w-full pl-5 pr-12 py-4 bg-white/60 border border-slate-200/80 rounded-2xl focus:bg-white focus:ring-[3px] focus:ring-brand-blue/10 focus:border-brand-blue outline-none transition-all duration-300 appearance-none text-slate-900 font-semibold cursor-pointer shadow-sm hover:border-slate-300"
+              className="w-full pl-5 pr-12 py-4 bg-slate-50/50 border border-slate-200/60 rounded-2xl focus:bg-white focus:border-brand-blue/50 focus:ring-[4px] focus:ring-brand-blue/10 outline-none transition-all duration-300 appearance-none text-slate-900 font-bold cursor-pointer shadow-[0_2px_4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:border-brand-blue/30"
             >
               {SERVICE_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -283,7 +298,7 @@ export const LeadForm: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-brand-blue to-cyan-500 hover:from-blue-500 hover:to-cyan-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-500/20 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/40 active:translate-y-0 flex items-center justify-center gap-2 text-lg group overflow-hidden relative"
+            className="w-full bg-gradient-to-r from-brand-blue to-cyan-500 hover:from-blue-500 hover:to-cyan-600 text-white font-bold py-4 rounded-2xl shadow-[0_20px_40px_-12px_rgba(14,165,233,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(14,165,233,0.6)] transform transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 text-lg group overflow-hidden relative"
           >
             {/* Shine effect */}
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
