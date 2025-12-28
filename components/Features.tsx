@@ -253,14 +253,19 @@ export const Services: React.FC = () => {
           {services.map((service, idx) => (
             <motion.div 
               key={idx}
-              whileHover={{ y: -8 }}
-              className="group bg-white p-8 rounded-3xl border border-slate-200 hover:border-brand-blue shadow-sm hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 cursor-default"
+              whileHover={{ y: -12, transition: { duration: 0.3 } }}
+              className="group bg-white p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/60 shadow-sm hover:shadow-2xl hover:shadow-blue-500/15 transition-all duration-300 cursor-default relative overflow-hidden"
             >
-              <div className="bg-blue-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 ease-out shadow-sm group-hover:shadow-md">
-                {React.cloneElement(service.icon as React.ReactElement<any>, { className: "w-8 h-8 transition-colors duration-300" })}
+              {/* Subtle hover background decoration */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"></div>
+              
+              <div className="relative z-10">
+                <div className="bg-blue-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 ease-out shadow-sm group-hover:shadow-lg">
+                  {React.cloneElement(service.icon as React.ReactElement<any>, { className: "w-8 h-8 transition-colors duration-300" })}
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-brand-blue transition-colors">{service.title}</h3>
+                <p className="text-slate-600 text-sm font-medium">{service.desc}</p>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-slate-900">{service.title}</h3>
-              <p className="text-slate-600 text-sm font-medium">{service.desc}</p>
             </motion.div>
           ))}
         </div>
