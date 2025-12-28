@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, Variants, useAnimation } from 'framer-motion';
-import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal } from 'lucide-react';
+import { motion, Variants, useAnimation, AnimatePresence } from 'framer-motion';
+import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal, Plus, Minus, HelpCircle } from 'lucide-react';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -379,6 +379,93 @@ export const InstagramSection: React.FC = () => {
             Follow Us on Instagram <ArrowRight className="w-6 h-6" />
           </a>
 
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export const FAQ: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      question: "Which areas do you serve?",
+      answer: "We proudly serve the entire Greater Charleston area, including Summerville, North Charleston, Mt Pleasant, West Ashley, Goose Creek, and Ladson. If you're unsure if you're in our zone, just give us a call!"
+    },
+    {
+      question: "How is pricing calculated?",
+      answer: "We believe in fair, transparent pricing based on the size of your home (square footage) and the specific type of service (Standard, Deep, or Move-in/Move-out). Fill out our instant quote form above to get an accurate estimate in seconds."
+    },
+    {
+      question: "Do I need to provide cleaning supplies?",
+      answer: "Not at all! We bring our own professional-grade, eco-friendly supplies and equipment. However, if you have specific products you'd prefer us to use, we are happy to accommodate."
+    },
+    {
+      question: "Are you insured and bonded?",
+      answer: "Yes, absolutely. StarCleaning is fully licensed, insured, and bonded. We take the safety and security of your home seriously, so you can have complete peace of mind."
+    },
+    {
+      question: "Is your service pet-friendly?",
+      answer: "We love pets! Our cleaning products are safe for dogs, cats, and kids. We just ask that you let us know if you have pets so our team is aware upon arrival."
+    }
+  ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  return (
+    <section className="py-24 bg-slate-50 relative">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 mb-4">
+            <HelpCircle className="w-4 h-4 text-brand-blue" />
+            <span className="text-brand-blue font-bold text-xs uppercase tracking-wide">Common Questions</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
+          <p className="text-slate-600 mt-4 text-lg">Everything you need to know about our premium services.</p>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, idx) => (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              key={idx} 
+              className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <button
+                onClick={() => toggleFAQ(idx)}
+                className="w-full px-6 py-5 text-left flex justify-between items-center bg-white hover:bg-slate-50/50 transition-colors"
+              >
+                <span className={`font-bold text-lg ${openIndex === idx ? 'text-brand-blue' : 'text-slate-800'}`}>
+                  {faq.question}
+                </span>
+                <span className={`ml-4 p-2 rounded-full transition-all duration-300 ${openIndex === idx ? 'bg-brand-blue text-white rotate-180' : 'bg-slate-100 text-slate-500'}`}>
+                  {openIndex === idx ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                </span>
+              </button>
+              
+              <AnimatePresence>
+                {openIndex === idx && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 pt-0 text-slate-600 leading-relaxed border-t border-slate-50/0">
+                      <div className="pt-2">{faq.answer}</div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

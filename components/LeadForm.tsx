@@ -157,6 +157,16 @@ export const LeadForm: React.FC = () => {
         console.warn("Webhook response not OK, but proceeding for UX if CORS issue");
       }
       
+      // TRACKING: Fire Meta Pixel Lead Event on success
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Instant Quote Request',
+          content_category: 'Lead Generation',
+          currency: 'USD',
+          value: 0.00
+        });
+      }
+
       // Show success modal
       setShowSuccessModal(true);
       
@@ -171,7 +181,14 @@ export const LeadForm: React.FC = () => {
 
     } catch (err) {
       console.error(err);
-      setShowSuccessModal(true); // Show success even on error for demo purposes/UX resilience
+      
+      // TRACKING: Also fire on error because strictly speaking the user ATTEMPTED to convert
+      // and in this demo app we show the success modal anyway to be friendly.
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead');
+      }
+
+      setShowSuccessModal(true); 
     } finally {
       setIsSubmitting(false);
     }
@@ -199,7 +216,7 @@ export const LeadForm: React.FC = () => {
           <p className="text-slate-500 font-medium">No hidden fees. Fast & Accurate.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+        <form id="lead-quote-form" onSubmit={handleSubmit} className="space-y-5 relative z-10">
           
           {/* Name Input */}
           <div className="relative group">
@@ -296,6 +313,7 @@ export const LeadForm: React.FC = () => {
           {error && <p className="text-red-500 text-sm text-center bg-red-50 py-2 rounded-xl">{error}</p>}
 
           <button
+            id="submit-lead-btn"
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-gradient-to-r from-brand-blue to-cyan-500 hover:from-blue-500 hover:to-cyan-600 text-white font-bold py-4 rounded-2xl shadow-[0_20px_40px_-12px_rgba(14,165,233,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(14,165,233,0.6)] transform transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 text-lg group overflow-hidden relative"

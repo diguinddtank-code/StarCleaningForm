@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Header } from './components/Header';
 import { LeadForm } from './components/LeadForm';
-import { TrustBadges, WhyChooseUs, Services, Testimonials, InstagramSection, BeforeAfter } from './components/Features';
+import { TrustBadges, WhyChooseUs, Services, Testimonials, InstagramSection, BeforeAfter, FAQ } from './components/Features';
 import { MapPin, Phone, Mail, CheckCircle2, Star } from 'lucide-react';
 
 // Hero Section Component with Parallax Video Background
@@ -223,6 +223,7 @@ function App() {
       <Services /> 
       <Testimonials />
       <InstagramSection />
+      <FAQ />
       <Footer />
     </div>
   );
