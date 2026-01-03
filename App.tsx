@@ -1,9 +1,59 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Header } from './components/Header';
 import { LeadForm } from './components/LeadForm';
 import { TrustBadges, WhyChooseUs, Services, Testimonials, InstagramSection, BeforeAfter, FAQ } from './components/Features';
-import { MapPin, Phone, Mail, CheckCircle2, Star } from 'lucide-react';
+import { MapPin, Phone, Mail, CheckCircle2, Star, ArrowRight, MousePointerClick } from 'lucide-react';
+
+// Sticky Mobile CTA Component
+const StickyMobileCTA = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    // Show after scrolling past hero (approx 600px)
+    return scrollY.onChange((latest) => {
+      setIsVisible(latest > 500);
+    });
+  }, [scrollY]);
+
+  const scrollToForm = () => {
+    const formElement = document.getElementById('lead-quote-form');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Small focus timeout
+      setTimeout(() => {
+        document.getElementById('name')?.focus();
+      }, 500);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          exit={{ y: 100 }}
+          className="fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-5px_30px_rgba(0,0,0,0.1)] z-50 md:hidden flex items-center justify-between gap-3 safe-bottom"
+        >
+          <div className="flex flex-col pl-2">
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Fast Estimate</span>
+            <span className="text-xs font-bold text-slate-900">Limited Slots</span>
+          </div>
+          <button 
+            onClick={scrollToForm}
+            className="flex-1 bg-brand-blue text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-blue-500/30 active:scale-95 transition-transform flex items-center justify-center gap-2 relative overflow-hidden"
+          >
+             {/* Pulse effect on button */}
+             <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+            <span className="relative z-10 flex items-center gap-2">Get Free Quote <ArrowRight className="w-4 h-4" /></span>
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 // Hero Section Component with Parallax Video Background
 const Hero = () => {
@@ -16,7 +66,7 @@ const Hero = () => {
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
 
   return (
-    <section className="relative min-h-[850px] md:h-[100vh] flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-[100dvh] md:h-[100vh] flex items-center justify-center overflow-hidden pt-16 md:pt-20">
       
       {/* Parallax Background Container */}
       <motion.div 
@@ -47,48 +97,54 @@ const Hero = () => {
         className="absolute inset-0 bg-black z-10 pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full py-8 md:py-0">
-        <div className="grid lg:grid-cols-12 gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full py-6 md:py-0">
+        <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-center">
           
           {/* Left Side Copy */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "circOut" }}
-            className="lg:col-span-7 text-white text-center lg:text-left"
+            className="lg:col-span-7 text-white text-center lg:text-left mt-4 md:mt-0"
           >
-            {/* Trust Pill */}
+            {/* Trust Pill - High Social Proof */}
             <motion.div 
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full text-white text-sm font-bold uppercase tracking-wider mb-8 hover:bg-white/20 transition-colors cursor-default"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-xs md:text-sm font-bold uppercase tracking-wider mb-4 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
             >
-              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              <span>#1 Rated in Charleston & Summerville</span>
+              <div className="flex -space-x-3">
+                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+              </div>
+              <span>Trusted by 500+ Neighbors</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow-lg shadow-black/20">
-              Your Home, <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">Perfectly Clean.</span>
+            {/* CRO: Headline Change to Benefit/Pain Relief - Mobile Sizing Adjusted */}
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6 tracking-tight drop-shadow-lg shadow-black/20">
+              Reclaim Your <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">Weekends.</span>
             </h1>
             
-            <p className="text-lg md:text-2xl text-blue-100 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium drop-shadow-md">
-              Experience the joy of a spotless home. We bring 5-star hotel standards to your doorstep in Charleston & Summerville.
+            <p className="text-base md:text-2xl text-blue-100 mb-6 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
+              Don't spend your free time cleaning. We bring 5-star hotel standards to your home.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start text-sm font-bold">
-              <div className="flex items-center gap-3 bg-blue-950/60 px-6 py-3 rounded-2xl backdrop-blur-md border border-white/10 shadow-lg">
-                <div className="bg-green-500 rounded-full p-1">
-                  <CheckCircle2 className="w-4 h-4 text-white" />
+            <div className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-4 text-xs md:text-sm font-bold mb-6 lg:mb-0">
+              <div className="flex items-center gap-2 bg-blue-950/60 px-4 py-2 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+                <div className="bg-green-500 rounded-full p-0.5 md:p-1">
+                  <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-white" />
                 </div>
-                <span>100% Satisfaction Guarantee</span>
+                <span>100% Guaranteed</span>
               </div>
-              <div className="flex items-center gap-3 bg-blue-950/60 px-6 py-3 rounded-2xl backdrop-blur-md border border-white/10 shadow-lg">
-                <div className="bg-brand-gold rounded-full p-1">
-                  <CheckCircle2 className="w-4 h-4 text-white" />
+              <div className="flex items-center gap-2 bg-blue-950/60 px-4 py-2 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+                <div className="bg-brand-gold rounded-full p-0.5 md:p-1">
+                  <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-white" />
                 </div>
-                <span>Licensed & Insured</span>
+                <span>Fast Booking</span>
               </div>
             </div>
           </motion.div>
@@ -98,7 +154,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
-            className="lg:col-span-5 w-full"
+            className="lg:col-span-5 w-full pb-8 md:pb-0"
           >
             <div className="transform md:translate-y-0 relative group">
               {/* Glow Effect behind form */}
@@ -112,7 +168,7 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Scroll indicator */}
+      {/* Scroll indicator - hidden on mobile to save vertical space */}
       <motion.div 
         style={{ opacity: useTransform(scrollY, [0, 200], [1, 0]) }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-20"
@@ -132,13 +188,13 @@ const Hero = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-slate-100 pt-20 pb-10">
+    <footer className="bg-white border-t border-slate-100 pt-16 md:pt-20 pb-24 md:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           
           {/* Brand */}
           <div className="col-span-1 md:col-span-1">
-            <h4 className="text-2xl font-extrabold text-slate-900 mb-6 tracking-tight flex items-center gap-2">
+            <h4 className="text-2xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight flex items-center gap-2">
               StarCleaning
               <span className="text-brand-blue text-4xl">.</span>
             </h4>
@@ -157,8 +213,8 @@ const Footer = () => {
 
           {/* Links */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6">Company</h4>
-            <ul className="space-y-4 text-slate-500 text-sm font-medium">
+            <h4 className="font-bold text-slate-900 mb-4 md:mb-6">Company</h4>
+            <ul className="space-y-3 md:space-y-4 text-slate-500 text-sm font-medium">
               <li><a href="#" className="hover:text-brand-blue hover:translate-x-1 inline-block transition-all">About Us</a></li>
               <li><a href="#" className="hover:text-brand-blue hover:translate-x-1 inline-block transition-all">How it Works</a></li>
               <li><a href="#" className="hover:text-brand-blue hover:translate-x-1 inline-block transition-all">Careers</a></li>
@@ -168,8 +224,8 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6">Get in Touch</h4>
-            <ul className="space-y-4 text-slate-500 text-sm font-medium">
+            <h4 className="font-bold text-slate-900 mb-4 md:mb-6">Get in Touch</h4>
+            <ul className="space-y-3 md:space-y-4 text-slate-500 text-sm font-medium">
               <li className="flex items-center gap-3 group">
                 <div className="p-2 bg-blue-50 rounded-lg group-hover:bg-brand-blue group-hover:text-white transition-colors">
                   <Phone className="w-4 h-4" /> 
@@ -193,7 +249,7 @@ const Footer = () => {
 
           {/* Service Areas */}
           <div>
-            <h4 className="font-bold text-slate-900 mb-6">We Serve</h4>
+            <h4 className="font-bold text-slate-900 mb-4 md:mb-6">We Serve</h4>
             <div className="flex flex-wrap gap-2">
               {['Charleston', 'Summerville', 'North Charleston', 'Mt Pleasant', 'West Ashley', 'Goose Creek'].map(area => (
                 <span key={area} className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-500 shadow-sm hover:border-brand-blue hover:text-brand-blue transition-colors cursor-default">
@@ -204,7 +260,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+        <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400 text-center md:text-left">
           <p>&copy; {new Date().getFullYear()} StarCleaning Services. Premium Cleaning Solutions.</p>
         </div>
       </div>
@@ -225,6 +281,7 @@ function App() {
       <InstagramSection />
       <FAQ />
       <Footer />
+      <StickyMobileCTA />
     </div>
   );
 }

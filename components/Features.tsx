@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, Variants, useAnimation, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal, Plus, Minus, HelpCircle } from 'lucide-react';
+import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal, Plus, Minus, HelpCircle, Trophy } from 'lucide-react';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -18,20 +18,21 @@ const itemVariants: Variants = {
 
 export const TrustBadges: React.FC = () => {
   const badges = [
-    "Google 5-Star Rated",
-    "Licensed & Insured",
-    "Background Checked",
-    "Satisfaction Guarantee"
+    { text: "Best of Charleston '24", icon: <Trophy className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" /> },
+    { text: "Google 5-Star Rated", icon: <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-500" /> },
+    { text: "Licensed & Insured", icon: <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-brand-blue" /> },
+    { text: "100% Satisfaction", icon: <Heart className="w-4 h-4 md:w-5 md:h-5 text-red-500" /> }
   ];
 
   return (
-    <div className="bg-white py-8 border-b border-slate-100 shadow-sm relative z-10">
+    <div className="bg-white py-6 border-b border-slate-100 shadow-sm relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap justify-center gap-6 md:gap-16 text-center">
+        <p className="text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-4">Charleston's Most Trusted Team</p>
+        <div className="flex flex-wrap justify-center gap-3 md:gap-12 text-center">
           {badges.map((badge, idx) => (
-            <div key={idx} className="flex items-center gap-3 text-slate-600 font-bold text-xs md:text-sm uppercase tracking-wider opacity-90 hover:opacity-100 transition-opacity">
-              <ShieldCheck className="w-5 h-5 text-brand-blue" />
-              <span>{badge}</span>
+            <div key={idx} className="flex items-center gap-1.5 md:gap-2 bg-slate-50 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-slate-100 shadow-sm">
+              {badge.icon}
+              <span className="text-slate-700 font-bold text-[10px] md:text-sm whitespace-nowrap">{badge.text}</span>
             </div>
           ))}
         </div>
@@ -43,59 +44,61 @@ export const TrustBadges: React.FC = () => {
 export const WhyChooseUs: React.FC = () => {
   const features = [
     {
-      icon: <Clock className="w-8 h-8 text-white" />,
+      icon: <Clock className="w-6 h-6 md:w-8 md:h-8 text-white" />,
       title: "Reliable & Punctual",
-      desc: "Our app-managed scheduling ensures we are on time, every time.",
+      desc: "App-managed scheduling means we are on time, every time.",
       bg: "bg-gradient-to-br from-blue-500 to-blue-700"
     },
     {
-      icon: <Heart className="w-8 h-8 text-white" />,
+      icon: <Heart className="w-6 h-6 md:w-8 md:h-8 text-white" />,
       title: "Pet & Family Safe",
-      desc: "We use non-toxic, eco-friendly products safe for your loved ones.",
+      desc: "Non-toxic, eco-friendly products safe for your loved ones.",
       bg: "bg-gradient-to-br from-rose-400 to-rose-600"
     },
     {
-      icon: <UserCheck className="w-8 h-8 text-white" />,
+      icon: <UserCheck className="w-6 h-6 md:w-8 md:h-8 text-white" />,
       title: "Vetted Professionals",
       desc: "Every cleaner is background checked and rigorously trained.",
       bg: "bg-gradient-to-br from-indigo-500 to-indigo-700"
     },
     {
-      icon: <HeartHandshake className="w-8 h-8 text-white" />,
+      icon: <HeartHandshake className="w-6 h-6 md:w-8 md:h-8 text-white" />,
       title: "Senior Discounts",
-      desc: "Special rates for seniors and military families. We support our community.",
+      desc: "Special rates for seniors and military families.",
       bg: "bg-gradient-to-br from-amber-500 to-amber-700"
     }
   ];
 
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-16 md:py-24 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="text-brand-blue font-bold tracking-wider uppercase text-sm bg-blue-100 px-3 py-1 rounded-full">The Star Standard</span>
+        <div className="text-center mb-10 md:mb-16">
+          <span className="text-brand-blue font-bold tracking-wider uppercase text-xs md:text-sm bg-blue-100 px-3 py-1 rounded-full">The Star Standard</span>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mt-4">Why we are rated #1</h2>
-          <p className="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">We don't just clean; we care for your home. Experience the difference of true professionals.</p>
+          <p className="text-slate-600 mt-3 md:mt-4 max-w-2xl mx-auto text-base md:text-lg">We don't just clean; we care for your home. Experience the difference.</p>
         </div>
 
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
         >
           {features.map((feature, idx) => (
             <motion.div 
               key={idx} 
               variants={itemVariants}
               whileHover={{ y: -10 }}
-              className="bg-white p-8 rounded-[2rem] shadow-xl shadow-slate-200 border border-white hover:border-blue-200 transition-all duration-300 flex flex-col items-center text-center"
+              className="bg-white p-6 md:p-8 rounded-[2rem] shadow-xl shadow-slate-200 border border-white hover:border-blue-200 transition-all duration-300 flex flex-row md:flex-col items-center text-left md:text-center gap-4 md:gap-0"
             >
-              <div className={`${feature.bg} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg rotate-3 group-hover:rotate-6 transition-transform`}>
+              <div className={`${feature.bg} w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center md:mb-6 shadow-lg flex-shrink-0`}>
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium text-sm">{feature.desc}</p>
+              <div>
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-1 md:mb-3">{feature.title}</h3>
+                <p className="text-slate-600 leading-relaxed font-medium text-sm">{feature.desc}</p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -128,14 +131,15 @@ export const BeforeAfter: React.FC = () => {
   const imageSrc = "https://i.imgur.com/XhU71Rx.jpeg";
   const limpa = "https://i.imgur.com/gpqI75L.jpeg"
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-16 md:py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">See the Difference</h2>
+         <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 md:mb-4">See the Difference</h2>
             <p className="text-slate-600">Drag the slider to clean the room.</p>
          </div>
 
-        <div className="relative w-full max-w-5xl mx-auto aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100 select-none group">
+        {/* Mobile Opt: Aspect Ratio 4/5 (Tall) on mobile, 21/9 (Wide) on desktop */}
+        <div className="relative w-full max-w-5xl mx-auto aspect-[4/5] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100 select-none group touch-none">
           
           <div 
             ref={containerRef}
@@ -201,7 +205,7 @@ export const BeforeAfter: React.FC = () => {
               className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20 shadow-[0_0_10px_2px_rgba(0,0,0,0.3)]"
               style={{ left: `${sliderPosition}%` }}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg text-brand-blue transition-transform hover:scale-110 active:scale-95">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg text-brand-blue transition-transform hover:scale-110 active:scale-95">
                 <MoveHorizontal className="w-6 h-6" />
               </div>
               {/* Squeegee Head Visual */}
@@ -240,30 +244,33 @@ export const Services: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-white relative">
+    <section className="py-16 md:py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-12 gap-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-slate-900">Our Services</h2>
             <p className="text-slate-600 text-lg">Comprehensive cleaning solutions tailored to your lifestyle. No contracts, just great service.</p>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {services.map((service, idx) => (
             <motion.div 
               key={idx}
-              whileHover={{ y: -12, transition: { duration: 0.3 } }}
-              className="group bg-white p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/60 shadow-sm hover:shadow-2xl hover:shadow-blue-500/15 transition-all duration-300 cursor-default relative overflow-hidden"
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+              className="group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/60 shadow-sm hover:shadow-2xl hover:shadow-blue-500/15 transition-all duration-300 cursor-default relative overflow-hidden flex items-center md:block gap-4"
             >
               {/* Subtle hover background decoration */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out hidden md:block"></div>
+              
+              <div className="relative z-10 flex-shrink-0">
+                <div className="bg-blue-50 w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center md:mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 ease-out shadow-sm group-hover:shadow-lg">
+                  {React.cloneElement(service.icon as React.ReactElement<any>, { className: "w-6 h-6 md:w-8 md:h-8 transition-colors duration-300" })}
+                </div>
+              </div>
               
               <div className="relative z-10">
-                <div className="bg-blue-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 ease-out shadow-sm group-hover:shadow-lg">
-                  {React.cloneElement(service.icon as React.ReactElement<any>, { className: "w-8 h-8 transition-colors duration-300" })}
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-brand-blue transition-colors">{service.title}</h3>
+                <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2 text-slate-900 group-hover:text-brand-blue transition-colors">{service.title}</h3>
                 <p className="text-slate-600 text-sm font-medium">{service.desc}</p>
               </div>
             </motion.div>
@@ -297,13 +304,13 @@ export const Testimonials: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
       {/* Decorative blobs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40 -mr-32 -mt-32 animate-pulse"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-50 rounded-full blur-3xl opacity-60 -ml-32 -mb-32"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <div className="inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 px-4 py-2 rounded-full mb-6 shadow-sm">
             <div className="flex gap-1">
               {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-brand-gold text-brand-gold" />)}
@@ -313,7 +320,8 @@ export const Testimonials: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">What our neighbors say</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Mobile Opt: Horizontal Scroll Snap for Testimonials */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 md:grid md:grid-cols-3 md:gap-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
           {reviews.map((review, idx) => (
             <motion.div 
               key={idx}
@@ -321,22 +329,24 @@ export const Testimonials: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.2 }}
               viewport={{ once: true }}
-              className="bg-white p-8 rounded-3xl relative hover:shadow-xl hover:shadow-slate-200 transition-all duration-300 border border-slate-100"
+              className="bg-white p-6 md:p-8 rounded-3xl relative hover:shadow-xl hover:shadow-slate-200 transition-all duration-300 border border-slate-100 min-w-[85vw] md:min-w-0 snap-center flex flex-col justify-between"
             >
-              <Quote className="w-10 h-10 text-blue-100 absolute top-8 right-8" />
-              <div className="flex gap-1 mb-4">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-brand-gold text-brand-gold" />
-                ))}
+              <div>
+                <Quote className="w-8 h-8 md:w-10 md:h-10 text-blue-100 absolute top-6 right-6 md:top-8 md:right-8" />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-brand-gold text-brand-gold" />
+                  ))}
+                </div>
+                <p className="text-slate-600 font-medium leading-relaxed mb-6 md:mb-8 relative z-10 text-sm md:text-base">"{review.text}"</p>
               </div>
-              <p className="text-slate-600 font-medium leading-relaxed mb-8 relative z-10">"{review.text}"</p>
               <div className="flex items-center gap-4 border-t border-slate-100 pt-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-brand-blue to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-brand-blue to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-md">
                   {review.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 text-base">{review.name}</p>
-                  <p className="text-brand-blue text-xs font-bold uppercase tracking-wide">{review.loc}</p>
+                  <p className="font-bold text-slate-900 text-sm md:text-base">{review.name}</p>
+                  <p className="text-brand-blue text-[10px] md:text-xs font-bold uppercase tracking-wide">{review.loc}</p>
                 </div>
               </div>
             </motion.div>
@@ -349,7 +359,7 @@ export const Testimonials: React.FC = () => {
 
 export const InstagramSection: React.FC = () => {
   return (
-    <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
+    <section className="py-16 md:py-20 bg-slate-900 text-white relative overflow-hidden">
       {/* Background Gradient & Effects */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-blue-900"></div>
       <div className="absolute top-0 right-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
@@ -362,11 +372,11 @@ export const InstagramSection: React.FC = () => {
             <span className="text-sm font-bold tracking-wide">@star.cleaningsc</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">
+          <h2 className="text-3xl md:text-6xl font-extrabold mb-6 md:mb-8 leading-tight">
             See the <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-amber-400">Shine</span> on our Instagram.
           </h2>
           
-          <p className="text-blue-100 text-xl mb-10 max-w-2xl">
+          <p className="text-blue-100 text-lg md:text-xl mb-8 md:mb-10 max-w-2xl">
             Join our community of happy homeowners. Check out our latest transformations, cleaning tips, and daily satisfaction.
           </p>
           
@@ -374,9 +384,9 @@ export const InstagramSection: React.FC = () => {
             href="https://www.instagram.com/star.cleaningsc/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold px-10 py-5 rounded-full transition-all transform hover:scale-105 shadow-xl shadow-pink-500/30 text-lg"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold px-8 py-4 md:px-10 md:py-5 rounded-full transition-all transform hover:scale-105 shadow-xl shadow-pink-500/30 text-base md:text-lg"
           >
-            Follow Us on Instagram <ArrowRight className="w-6 h-6" />
+            Follow Us on Instagram <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
           </a>
 
         </div>
@@ -416,18 +426,18 @@ export const FAQ: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-slate-50 relative">
+    <section className="py-16 md:py-24 bg-slate-50 relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <div className="inline-flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 mb-4">
             <HelpCircle className="w-4 h-4 text-brand-blue" />
             <span className="text-brand-blue font-bold text-xs uppercase tracking-wide">Common Questions</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
-          <p className="text-slate-600 mt-4 text-lg">Everything you need to know about our premium services.</p>
+          <p className="text-slate-600 mt-4 text-base md:text-lg">Everything you need to know about our premium services.</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {faqs.map((faq, idx) => (
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
@@ -439,9 +449,9 @@ export const FAQ: React.FC = () => {
             >
               <button
                 onClick={() => toggleFAQ(idx)}
-                className="w-full px-6 py-5 text-left flex justify-between items-center bg-white hover:bg-slate-50/50 transition-colors"
+                className="w-full px-5 py-4 md:px-6 md:py-5 text-left flex justify-between items-center bg-white hover:bg-slate-50/50 transition-colors"
               >
-                <span className={`font-bold text-lg ${openIndex === idx ? 'text-brand-blue' : 'text-slate-800'}`}>
+                <span className={`font-bold text-base md:text-lg ${openIndex === idx ? 'text-brand-blue' : 'text-slate-800'}`}>
                   {faq.question}
                 </span>
                 <span className={`ml-4 p-2 rounded-full transition-all duration-300 ${openIndex === idx ? 'bg-brand-blue text-white rotate-180' : 'bg-slate-100 text-slate-500'}`}>
@@ -458,7 +468,7 @@ export const FAQ: React.FC = () => {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 pt-0 text-slate-600 leading-relaxed border-t border-slate-50/0">
+                    <div className="px-5 pb-5 md:px-6 md:pb-6 pt-0 text-slate-600 leading-relaxed border-t border-slate-50/0 text-sm md:text-base">
                       <div className="pt-2">{faq.answer}</div>
                     </div>
                   </motion.div>
