@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, Variants, useAnimation, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal, Plus, Minus, HelpCircle, Trophy } from 'lucide-react';
+import { ShieldCheck, Sparkles, Clock, Home, Building2, Box, Star, Quote, Heart, UserCheck, HeartHandshake, Instagram, ArrowRight, MoveHorizontal, Plus, Minus, HelpCircle, Trophy, MessageCircle, ThumbsUp, Share2, MoreHorizontal } from 'lucide-react';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -282,76 +282,138 @@ export const Services: React.FC = () => {
 };
 
 export const Testimonials: React.FC = () => {
-  const reviews = [
-    {
-      name: "Sarah Jenkins",
-      loc: "Summerville, SC",
-      text: "Absolutely the best cleaning service I've used. The team was professional and my house looks like a model home!",
-      rating: 5
-    },
-    {
-      name: "Mike Ross",
-      loc: "Charleston, SC",
-      text: "Super easy to book. They arrived on time and tackled deep stains I thought were permanent. Highly recommend.",
-      rating: 5
-    },
-    {
-      name: "Emily Blunt",
-      loc: "Mt Pleasant, SC",
-      text: "I love coming home after StarCleaning has been there. It smells amazing and feels so fresh. Worth every penny.",
-      rating: 5
-    }
-  ];
-
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
       {/* Decorative blobs */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40 -mr-32 -mt-32 animate-pulse"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-50 rounded-full blur-3xl opacity-60 -ml-32 -mb-32"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-10 md:mb-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-10 md:mb-12">
           <div className="inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 px-4 py-2 rounded-full mb-6 shadow-sm">
             <div className="flex gap-1">
               {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-brand-gold text-brand-gold" />)}
             </div>
             <span className="text-sm font-bold text-slate-700">Google 5-Star Rated</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">What our neighbors say</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900">Talk of the Town</h2>
+          <p className="text-slate-600 mt-4 text-base md:text-lg">Real neighbors recommending us in your local community groups.</p>
         </div>
 
-        {/* Mobile Opt: Horizontal Scroll Snap for Testimonials */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 md:grid md:grid-cols-3 md:gap-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-          {reviews.map((review, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white p-6 md:p-8 rounded-3xl relative hover:shadow-xl hover:shadow-slate-200 transition-all duration-300 border border-slate-100 min-w-[85vw] md:min-w-0 snap-center flex flex-col justify-between"
-            >
-              <div>
-                <Quote className="w-8 h-8 md:w-10 md:h-10 text-blue-100 absolute top-6 right-6 md:top-8 md:right-8" />
-                <div className="flex gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-brand-gold text-brand-gold" />
-                  ))}
+        {/* Community Group Post Simulation */}
+        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden relative">
+            {/* Fake Facebook/Nextdoor Header */}
+            <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                      <Home className="w-6 h-6" />
+                   </div>
+                   <div>
+                      <h4 className="font-bold text-slate-900 text-sm leading-tight">Charleston Neighbors & Moms</h4>
+                      <p className="text-[10px] text-slate-500 font-medium">Public Group • 15.2k Members</p>
+                   </div>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed mb-6 md:mb-8 relative z-10 text-sm md:text-base">"{review.text}"</p>
-              </div>
-              <div className="flex items-center gap-4 border-t border-slate-100 pt-6">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-brand-blue to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-md">
-                  {review.name.charAt(0)}
+                <MoreHorizontal className="w-5 h-5 text-slate-400" />
+            </div>
+
+            <div className="p-0">
+                {/* The "Question" Post */}
+                <div className="p-6 md:p-8 bg-white">
+                    <div className="flex gap-4">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Neighbor" className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+                        <div>
+                            <p className="font-bold text-slate-900">Jessica Miller</p>
+                            <p className="text-xs text-slate-400 mb-2">2h ago • Summerville, SC</p>
+                            <p className="text-slate-700 leading-relaxed text-base md:text-lg">
+                                🆘 Help needed! My in-laws are coming to visit this weekend and my house is a DISASTER with the kids and work. 
+                                <br/><br/>
+                                Does anyone have a <strong>cleaning service they actually trust?</strong> I've been burned before. Need someone reliable who does a deep clean! 🙏
+                            </p>
+                        </div>
+                    </div>
+                    {/* Reactions Bar */}
+                    <div className="flex items-center gap-6 mt-4 pt-4 border-t border-slate-50 text-slate-400 text-sm font-semibold">
+                         <div className="flex items-center gap-2 hover:text-blue-500 cursor-pointer transition-colors"><ThumbsUp className="w-4 h-4" /> Like</div>
+                         <div className="flex items-center gap-2 hover:text-blue-500 cursor-pointer transition-colors"><MessageCircle className="w-4 h-4" /> 24 Comments</div>
+                         <div className="flex items-center gap-2 hover:text-blue-500 cursor-pointer transition-colors"><Share2 className="w-4 h-4" /> Share</div>
+                    </div>
                 </div>
-                <div>
-                  <p className="font-bold text-slate-900 text-sm md:text-base">{review.name}</p>
-                  <p className="text-brand-blue text-[10px] md:text-xs font-bold uppercase tracking-wide">{review.loc}</p>
+
+                {/* The "Answers" (Testimonials) */}
+                <div className="bg-slate-50/50 p-6 md:p-8 space-y-6">
+                    
+                    {/* Comment 1 */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex gap-3"
+                    >
+                         <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-sm flex-shrink-0">
+                            MR
+                         </div>
+                         <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 flex-grow">
+                             <p className="font-bold text-slate-900 text-sm">Mike Ross</p>
+                             <p className="text-slate-600 text-sm mt-1">
+                                You HAVE to call <span className="text-brand-blue font-bold">@StarCleaning</span>. They saved my life before Thanksgiving. The deep clean is no joke!
+                             </p>
+                             <div className="flex items-center gap-3 mt-2">
+                                <span className="text-xs text-slate-400 font-medium">Like</span>
+                                <span className="text-xs text-slate-400 font-medium">Reply</span>
+                                <span className="text-xs text-slate-400">1h</span>
+                             </div>
+                         </div>
+                    </motion.div>
+
+                    {/* Comment 2 (Highlight) */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="flex gap-3"
+                    >
+                         <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Reviewer" className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0" />
+                         <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 flex-grow ring-2 ring-blue-100">
+                             <p className="font-bold text-slate-900 text-sm">Sarah Jenkins</p>
+                             <p className="text-slate-600 text-sm mt-1">
+                                +1 for StarCleaning! 🙌 They are the only ones I trust with my dogs in the house. Super professional and they show up ON TIME.
+                             </p>
+                             <div className="flex items-center gap-3 mt-2">
+                                <span className="text-xs text-blue-500 font-bold">2 Likes</span>
+                                <span className="text-xs text-slate-400 font-medium">Like</span>
+                                <span className="text-xs text-slate-400 font-medium">Reply</span>
+                                <span className="text-xs text-slate-400">45m</span>
+                             </div>
+                         </div>
+                    </motion.div>
+                    
+                    {/* Comment 3 */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="flex gap-3"
+                    >
+                         <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm flex-shrink-0">
+                            EB
+                         </div>
+                         <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 flex-grow">
+                             <p className="font-bold text-slate-900 text-sm">Emily Blunt</p>
+                             <p className="text-slate-600 text-sm mt-1">
+                                Just used them for a move-out clean. Got my full deposit back! 💸 Highly recommend.
+                             </p>
+                             <div className="flex items-center gap-3 mt-2">
+                                <span className="text-xs text-slate-400 font-medium">Like</span>
+                                <span className="text-xs text-slate-400 font-medium">Reply</span>
+                                <span className="text-xs text-slate-400">12m</span>
+                             </div>
+                         </div>
+                    </motion.div>
+
                 </div>
-              </div>
-            </motion.div>
-          ))}
+            </div>
         </div>
+
       </div>
     </section>
   );
