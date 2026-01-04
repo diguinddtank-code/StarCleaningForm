@@ -61,22 +61,42 @@ const SuccessModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </p>
 
             <div className="space-y-3">
+              {/* Call Us Button */}
+              <a 
+                href="tel:8432979935"
+                className="flex items-center justify-between w-full p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-blue-100 hover:border-brand-blue/50 shadow-sm hover:shadow-md transition-all group"
+              >
+                 <div className="flex items-center gap-3">
+                    <div className="bg-brand-blue text-white p-2.5 rounded-xl shadow-sm shadow-blue-200">
+                       <Phone className="w-5 h-5" />
+                    </div>
+                    <div className="text-left">
+                       <p className="font-bold text-slate-900 text-sm">Call Us Now</p>
+                       <p className="text-xs text-slate-500 font-medium">Skip the wait & speak to us</p>
+                    </div>
+                 </div>
+                 <div className="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <ArrowRight className="w-4 h-4 text-brand-blue" />
+                 </div>
+              </a>
+
+              {/* Instagram Button */}
               <a 
                 href="https://www.instagram.com/star.cleaningsc/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 hover:border-brand-blue/30 shadow-sm hover:shadow-md transition-all group"
+                className="flex items-center justify-between w-full p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-white border border-slate-200 hover:border-pink-300/50 shadow-sm hover:shadow-md transition-all group"
               >
                  <div className="flex items-center gap-3">
-                    <div className="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white p-2 rounded-xl shadow-sm">
+                    <div className="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white p-2.5 rounded-xl shadow-sm">
                        <Sparkles className="w-5 h-5" />
                     </div>
                     <div className="text-left">
-                       <p className="font-bold text-slate-900 text-sm">Before & Afters</p>
-                       <p className="text-xs text-slate-500 font-medium">See our results on Instagram</p>
+                       <p className="font-bold text-slate-900 text-sm">See Our Results</p>
+                       <p className="text-xs text-slate-500 font-medium">Check before & afters on IG</p>
                     </div>
                  </div>
-                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-transform" />
+                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-transform" />
               </a>
               
               <button
