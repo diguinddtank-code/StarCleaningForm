@@ -155,20 +155,28 @@ export const LeadForm: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) console.warn("Webhook response not OK");
-      
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Lead', {
-          content_name: 'Instant Quote Request',
-          content_category: 'Lead Generation',
-        });
+      // Validar se o envio foi realmente um sucesso (HTTP 200-299)
+      if (response.ok) {
+        // Disparar o Pixel APENAS se o servidor respondeu OK
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'Instant Quote Request',
+            content_category: 'Lead Generation',
+            currency: 'USD',
+            value: 0.00
+          });
+        }
+      } else {
+        console.warn("Webhook response not OK");
       }
 
+      // Exibir feedback visual para o usuário
       setShowSuccessModal(true);
       setFormData({ name: '', email: '', phone: '', zipCode: '', serviceType: SERVICE_OPTIONS[0].value });
 
     } catch (err) {
       console.error(err);
+      // Em caso de erro de rede, mostramos o modal para não frustrar, mas NÃO disparamos o Pixel.
       setShowSuccessModal(true); 
     } finally {
       setIsSubmitting(false);
