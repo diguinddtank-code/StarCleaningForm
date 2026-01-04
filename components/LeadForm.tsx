@@ -169,8 +169,8 @@ export const LeadForm: React.FC = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
-  // Reusable input class for consistency - Added focus rings
-  const inputClass = "w-full pl-12 pr-4 h-14 bg-slate-50 border-2 border-slate-200 rounded-xl outline-none text-slate-900 placeholder:text-slate-400 placeholder:font-medium font-bold text-base transition-all duration-200 focus:bg-white focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/20 focus:shadow-lg focus:scale-[1.01] hover:border-slate-300";
+  // Reusable input class for consistency - Compacted: h-12, reduced padding, text-sm
+  const inputClass = "w-full pl-10 pr-4 h-12 bg-slate-50 border-2 border-slate-200 rounded-xl outline-none text-slate-900 placeholder:text-slate-400 placeholder:font-medium font-bold text-sm transition-all duration-200 focus:bg-white focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/20 focus:shadow-lg focus:scale-[1.01] hover:border-slate-300";
 
   return (
     <>
@@ -180,27 +180,28 @@ export const LeadForm: React.FC = () => {
 
       <div className="relative group perspective-1000">
         {/* Ambient Glow */}
-        <div className="absolute -inset-0.5 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-[2.5rem] blur-2xl opacity-50 group-hover:opacity-75 transition duration-1000"></div>
+        <div className="absolute -inset-0.5 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-[2rem] blur-2xl opacity-50 group-hover:opacity-75 transition duration-1000"></div>
         
-        <div className="bg-white/95 backdrop-blur-3xl rounded-[2.5rem] border border-white/60 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),inset_0_0_0_1px_rgba(255,255,255,0.8)] p-6 md:p-8 relative overflow-hidden">
+        {/* Reduced padding p-5 md:p-6 for a tighter card */}
+        <div className="bg-white/95 backdrop-blur-3xl rounded-[2rem] border border-white/60 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),inset_0_0_0_1px_rgba(255,255,255,0.8)] p-5 md:p-6 relative overflow-hidden">
           
           {/* Top Decorative Line */}
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent opacity-50"></div>
 
-          {/* Header Section */}
-          <div className="mb-8 relative z-10">
+          {/* Header Section - Reduced Margins */}
+          <div className="mb-5 relative z-10">
             
-            {/* Premium Progress Stepper */}
-            <div className="flex items-center justify-between mb-6 bg-slate-50/80 rounded-full p-1.5 border border-slate-100">
-               <div className="flex items-center gap-2 bg-white shadow-sm rounded-full px-3 py-1.5 border border-slate-100">
-                  <div className="w-5 h-5 rounded-full bg-brand-blue flex items-center justify-center text-white text-[10px] font-bold shadow-sm shadow-blue-200">
+            {/* Premium Progress Stepper - More Compact */}
+            <div className="flex items-center justify-between mb-4 bg-slate-50/80 rounded-full p-1 border border-slate-100">
+               <div className="flex items-center gap-1.5 bg-white shadow-sm rounded-full px-2.5 py-1 border border-slate-100">
+                  <div className="w-4 h-4 rounded-full bg-brand-blue flex items-center justify-center text-white text-[9px] font-bold shadow-sm shadow-blue-200">
                     1
                   </div>
-                  <span className="text-[11px] font-bold text-slate-800 uppercase tracking-wide">Details</span>
+                  <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wide">Details</span>
                </div>
                
                {/* Connecting Line */}
-               <div className="flex-1 mx-3 h-0.5 bg-slate-200 rounded-full overflow-hidden">
+               <div className="flex-1 mx-2 h-0.5 bg-slate-200 rounded-full overflow-hidden">
                  <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: "50%" }}
@@ -209,24 +210,24 @@ export const LeadForm: React.FC = () => {
                  />
                </div>
 
-               <div className="flex items-center gap-2 pr-3 opacity-40 grayscale">
-                  <div className="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-[10px] font-bold">
+               <div className="flex items-center gap-1.5 pr-2 opacity-40 grayscale">
+                  <div className="w-4 h-4 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-[9px] font-bold">
                     2
                   </div>
-                  <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wide">Estimate</span>
+                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wide">Estimate</span>
                </div>
             </div>
 
-            {/* Title */}
+            {/* Title - Reduced Size */}
             <div className="space-y-1">
-              <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight leading-tight">
                 Get Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-indigo-600">Custom Quote</span>
               </h3>
               <div className="flex items-center gap-2">
-                 <div className="flex items-center gap-1.5 bg-green-50 px-2 py-0.5 rounded text-green-700 font-bold text-[10px] uppercase tracking-wider">
-                    <Clock className="w-3 h-3" /> Instant
+                 <div className="flex items-center gap-1 bg-green-50 px-1.5 py-0.5 rounded text-green-700 font-bold text-[9px] uppercase tracking-wider">
+                    <Clock className="w-2.5 h-2.5" /> Instant
                  </div>
-                 <p className="text-slate-500 font-medium text-sm">
+                 <p className="text-slate-500 font-medium text-xs">
                    Takes less than 30 seconds.
                  </p>
               </div>
@@ -236,18 +237,18 @@ export const LeadForm: React.FC = () => {
           <motion.form 
             id="lead-quote-form" 
             onSubmit={handleSubmit} 
-            className="space-y-5 relative z-10"
+            className="space-y-3 relative z-10"
             variants={containerVariants}
             initial="hidden"
             animate="show"
           >
             
             {/* Name Field */}
-            <motion.div variants={itemVariants} className="space-y-1.5">
-              <label htmlFor="name" className="block text-sm font-bold text-slate-900 mb-2 ml-1">Full Name</label>
+            <motion.div variants={itemVariants} className="space-y-1">
+              <label htmlFor="name" className="block text-xs font-bold text-slate-900 ml-1">Full Name</label>
               <div className="relative group">
-                <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
-                   <User className="h-5 w-5" />
+                <div className="absolute top-1/2 -translate-y-1/2 left-3 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
+                   <User className="h-4 w-4" />
                 </div>
                 <input
                   type="text"
@@ -264,12 +265,12 @@ export const LeadForm: React.FC = () => {
             </motion.div>
 
             {/* Phone & Zip Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <motion.div variants={itemVariants} className="space-y-1.5">
-                <label htmlFor="phone" className="block text-sm font-bold text-slate-900 mb-2 ml-1">Phone Number</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <motion.div variants={itemVariants} className="space-y-1">
+                <label htmlFor="phone" className="block text-xs font-bold text-slate-900 ml-1">Phone Number</label>
                 <div className="relative group">
-                  <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
-                      <Phone className="h-5 w-5" />
+                  <div className="absolute top-1/2 -translate-y-1/2 left-3 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
+                      <Phone className="h-4 w-4" />
                   </div>
                   <input
                     type="tel"
@@ -285,11 +286,11 @@ export const LeadForm: React.FC = () => {
                 </div>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="space-y-1.5">
-                <label htmlFor="zipCode" className="block text-sm font-bold text-slate-900 mb-2 ml-1">Zip Code</label>
+              <motion.div variants={itemVariants} className="space-y-1">
+                <label htmlFor="zipCode" className="block text-xs font-bold text-slate-900 ml-1">Zip Code</label>
                 <div className="relative group">
-                  <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
-                      <MapPin className="h-5 w-5" />
+                  <div className="absolute top-1/2 -translate-y-1/2 left-3 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
+                      <MapPin className="h-4 w-4" />
                   </div>
                   <input
                     type="text"
@@ -309,11 +310,11 @@ export const LeadForm: React.FC = () => {
             </div>
 
             {/* Email Field */}
-            <motion.div variants={itemVariants} className="space-y-1.5">
-              <label htmlFor="email" className="block text-sm font-bold text-slate-900 mb-2 ml-1">Email Address</label>
+            <motion.div variants={itemVariants} className="space-y-1">
+              <label htmlFor="email" className="block text-xs font-bold text-slate-900 ml-1">Email Address</label>
               <div className="relative group">
-                <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
-                    <Mail className="h-5 w-5" />
+                <div className="absolute top-1/2 -translate-y-1/2 left-3 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
+                    <Mail className="h-4 w-4" />
                 </div>
                 <input
                   type="email"
@@ -327,31 +328,31 @@ export const LeadForm: React.FC = () => {
                   className={inputClass}
                 />
                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none">
-                    <Lock className="w-4 h-4" />
+                    <Lock className="w-3.5 h-3.5" />
                  </div>
               </div>
             </motion.div>
 
             {/* Service Select */}
-            <motion.div variants={itemVariants} className="space-y-1.5">
-               <label htmlFor="serviceType" className="block text-sm font-bold text-slate-900 mb-2 ml-1">Cleaning Service</label>
+            <motion.div variants={itemVariants} className="space-y-1">
+               <label htmlFor="serviceType" className="block text-xs font-bold text-slate-900 ml-1">Cleaning Service</label>
                <div className="relative group">
-                 <div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
-                    <Sparkles className="h-5 w-5" />
+                 <div className="absolute top-1/2 -translate-y-1/2 left-3 z-10 text-slate-400 pointer-events-none group-focus-within:text-brand-blue transition-colors">
+                    <Sparkles className="h-4 w-4" />
                  </div>
                 <select
                   id="serviceType"
                   name="serviceType"
                   value={formData.serviceType}
                   onChange={handleChange}
-                  className={`${inputClass} appearance-none cursor-pointer pr-12`}
+                  className={`${inputClass} appearance-none cursor-pointer pr-10`}
                 >
                   {SERVICE_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>{opt.label}</option>
                   ))}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 group-focus-within:text-brand-blue transition-colors">
-                  <ChevronDown className="h-5 w-5" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 group-focus-within:text-brand-blue transition-colors">
+                  <ChevronDown className="h-4 w-4" />
                 </div>
                </div>
             </motion.div>
@@ -360,18 +361,18 @@ export const LeadForm: React.FC = () => {
               <motion.div 
                 initial={{ opacity: 0, height: 0 }} 
                 animate={{ opacity: 1, height: 'auto' }}
-                className="p-3 bg-red-50 text-red-600 text-sm rounded-xl text-center border border-red-100 font-medium"
+                className="p-2.5 bg-red-50 text-red-600 text-xs rounded-xl text-center border border-red-100 font-medium"
               >
                 {error}
               </motion.div>
             )}
 
-            <motion.div variants={itemVariants} className="pt-2">
+            <motion.div variants={itemVariants} className="pt-1">
               <button
                 id="submit-lead-btn"
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-16 bg-gradient-to-r from-brand-blue via-blue-500 to-cyan-500 text-white font-extrabold text-lg rounded-xl shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/40 transform transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-brand-blue/30 focus:ring-offset-2 group relative overflow-hidden"
+                className="w-full h-12 bg-gradient-to-r from-brand-blue via-blue-500 to-cyan-500 text-white font-extrabold text-base rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/40 transform transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-brand-blue/30 focus:ring-offset-2 group relative overflow-hidden"
               >
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:250%_250%,100%_100%] animate-[shimmer_2s_linear_infinite]" />
@@ -379,11 +380,11 @@ export const LeadForm: React.FC = () => {
                 <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide">
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="animate-spin w-6 h-6" /> Processing...
+                      <Loader2 className="animate-spin w-5 h-5" /> Processing...
                     </>
                   ) : (
                     <>
-                      See Price & Availability <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                      See Price & Availability <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </span>
@@ -391,12 +392,12 @@ export const LeadForm: React.FC = () => {
             </motion.div>
 
             {/* Minimal Trust Footer */}
-            <motion.div variants={itemVariants} className="flex justify-center gap-6 pt-2 opacity-70">
-              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-slate-400">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-500" /> SSL Secure
+            <motion.div variants={itemVariants} className="flex justify-center gap-4 pt-1 opacity-70">
+              <div className="flex items-center gap-1 text-[9px] uppercase tracking-wider font-bold text-slate-400">
+                <ShieldCheck className="w-3 h-3 text-green-500" /> SSL Secure
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider font-bold text-slate-400">
-                <Receipt className="w-3.5 h-3.5 text-brand-blue" /> No hidden fees
+              <div className="flex items-center gap-1 text-[9px] uppercase tracking-wider font-bold text-slate-400">
+                <Receipt className="w-3 h-3 text-brand-blue" /> No hidden fees
               </div>
             </motion.div>
 
