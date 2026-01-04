@@ -275,9 +275,9 @@ function App() {
       <Hero />
       <TrustBadges />
       <WhyChooseUs />
+      <Testimonials />
       <BeforeAfter />
       <Services /> 
-      <Testimonials />
       <InstagramSection />
       <FAQ />
       <Footer />
