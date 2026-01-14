@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle } from 'lucide-react';
+import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info } from 'lucide-react';
 import { LeadFormData, PRICING_CONFIG } from '../types';
 
 // --- Types & Constants within Component ---
@@ -18,10 +18,9 @@ const ONE_TIME_SERVICES = [
 ];
 
 const RECURRING_SERVICES = [
-  { id: 'weekly', label: 'Weekly - Premium', discount: 0.20, tag: 'Best Value', desc: 'Save 20%' },
-  { id: 'weekly-alt', label: 'Weekly - Alternating', discount: 0.15, desc: 'Save 15%' },
-  { id: 'bi-weekly', label: 'Every 2 Weeks', discount: 0.15, tag: 'Most Popular', desc: 'Save 15%' },
-  { id: 'monthly', label: 'Every 4 Weeks', discount: 0.10, desc: 'Save 10%' },
+  { id: 'weekly', label: 'Weekly - Premium', discount: 0.20, tag: '1st Clean 50% OFF', desc: 'Then save 20% forever' },
+  { id: 'bi-weekly', label: 'Every 2 Weeks', discount: 0.15, tag: '1st Clean 50% OFF', desc: 'Then save 15% forever' },
+  { id: 'monthly', label: 'Every 4 Weeks', discount: 0.10, desc: 'Save 10% every month' },
 ];
 
 // --- Helper Components ---
@@ -125,29 +124,64 @@ export const LeadForm: React.FC = () => {
     serviceDetail: 'design-time',
     estimatedPrice: 0,
   });
+  
+  // Pricing State for display
+  const [priceDetails, setPriceDetails] = useState({
+    base: 0,
+    multiplier: 1,
+    discount: 0,
+    savings: 0,
+    final: 0,
+    isFirstCleanPromo: false
+  });
 
   // Real-time Pricing Logic
   useEffect(() => {
-    let price = PRICING_CONFIG.BASE_PRICE;
+    let basePrice = PRICING_CONFIG.BASE_PRICE;
 
     // Add room costs
-    price += (formData.bedrooms * PRICING_CONFIG.PER_BEDROOM);
-    price += (formData.bathrooms * PRICING_CONFIG.PER_BATHROOM);
+    basePrice += (formData.bedrooms * PRICING_CONFIG.PER_BEDROOM);
+    basePrice += (formData.bathrooms * PRICING_CONFIG.PER_BATHROOM);
+
+    let finalPrice = basePrice;
+    let multiplier = 1;
+    let discount = 0;
+    let isFirstCleanPromo = false;
 
     // Get Multiplier/Discount based on selection
     if (formData.cleaningType === 'one-time') {
       const service = ONE_TIME_SERVICES.find(s => s.id === formData.serviceDetail);
-      if (service && service.multiplier) {
-        price *= service.multiplier;
+      if (service) {
+        multiplier = service.multiplier || 1;
+        finalPrice *= multiplier;
       }
     } else {
       const service = RECURRING_SERVICES.find(s => s.id === formData.serviceDetail);
-      if (service && service.discount) {
-        price = price * (1 - service.discount);
+      if (service) {
+        discount = service.discount || 0;
+        finalPrice = finalPrice * (1 - discount);
+        if (service.tag && service.tag.includes('50%')) {
+            isFirstCleanPromo = true;
+        }
       }
     }
 
-    setFormData(prev => ({ ...prev, estimatedPrice: Math.round(price) }));
+    const calculatedFinal = Math.round(finalPrice);
+    // The "Standard" price to compare against. If One-time, it's just the final. 
+    // If Recurring, it's the Base price (what they would pay without subscription).
+    // If One-time has a multiplier, the "Base" is the standard clean.
+    const displayBase = Math.round(formData.cleaningType === 'one-time' ? basePrice * multiplier : basePrice);
+    
+    setPriceDetails({
+        base: displayBase,
+        multiplier,
+        discount,
+        savings: displayBase - calculatedFinal,
+        final: calculatedFinal,
+        isFirstCleanPromo
+    });
+
+    setFormData(prev => ({ ...prev, estimatedPrice: calculatedFinal }));
   }, [formData.bedrooms, formData.bathrooms, formData.cleaningType, formData.serviceDetail]);
 
   // City Lookup Logic
@@ -570,10 +604,10 @@ export const LeadForm: React.FC = () => {
                         One-Time Clean
                       </button>
                       <button 
-                        onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[2].id}) }}
-                        className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-300 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
+                        onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[0].id}) }}
+                        className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        Recurring (Save $)
+                        Recurring <span className="hidden md:inline text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold tracking-tight">50% OFF</span>
                       </button>
                    </div>
 
@@ -588,14 +622,20 @@ export const LeadForm: React.FC = () => {
                           className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.serviceDetail === option.id ? 'border-brand-blue bg-blue-50/40' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'}`}
                        >
                           {option.tag && (
-                            <span className="absolute -top-2.5 right-4 bg-gradient-to-r from-orange-400 to-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                            <motion.span 
+                              animate={option.tag.includes('50%') ? { scale: [1, 1.05, 1] } : {}}
+                              transition={{ duration: 2, repeat: Infinity }}
+                              className={`absolute -top-2.5 right-4 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm ${option.tag.includes('50%') ? 'bg-gradient-to-r from-red-500 to-pink-600 shadow-red-500/30' : 'bg-gradient-to-r from-orange-400 to-amber-500'}`}
+                            >
                               {option.tag}
-                            </span>
+                            </motion.span>
                           )}
                           <div className="flex justify-between items-center">
                              <div>
                                <p className={`text-sm font-bold ${formData.serviceDetail === option.id ? 'text-brand-blue' : 'text-slate-900'}`}>{option.label}</p>
-                               <p className="text-xs text-slate-500 font-medium mt-0.5">{option.desc}</p>
+                               <p className="text-xs text-slate-500 font-medium mt-0.5 flex items-center gap-1">
+                                 {option.desc}
+                               </p>
                              </div>
                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${formData.serviceDetail === option.id ? 'border-brand-blue bg-brand-blue' : 'border-slate-200'}`}>
                                 <motion.div animate={{ scale: formData.serviceDetail === option.id ? 1 : 0 }}>
@@ -606,6 +646,47 @@ export const LeadForm: React.FC = () => {
                        </motion.div>
                      ))}
                    </div>
+                   
+                   {/* PRICE SUMMARY SECTION */}
+                   <motion.div 
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     className="mt-6 pt-4 border-t-2 border-dashed border-slate-200"
+                   >
+                     <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs text-slate-500 font-medium">Standard Service Value</span>
+                        <span className="text-xs font-bold text-slate-700">${priceDetails.base}</span>
+                     </div>
+                     
+                     {priceDetails.discount > 0 && (
+                       <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs text-green-600 font-bold flex items-center gap-1">
+                            <Tag className="w-3 h-3" /> Frequency Discount
+                          </span>
+                          <span className="text-xs font-bold text-green-600">-${priceDetails.savings}</span>
+                       </div>
+                     )}
+
+                     {priceDetails.isFirstCleanPromo && (
+                        <div className="flex justify-between items-center mb-2 bg-red-50 p-2 rounded-lg border border-red-100 mt-2">
+                           <span className="text-xs text-red-600 font-extrabold flex items-center gap-1">
+                             <Sparkles className="w-3 h-3" /> FIRST CLEAN SPECIAL
+                           </span>
+                           <span className="text-xs font-bold text-red-600">50% OFF</span>
+                        </div>
+                     )}
+
+                     <div className="flex justify-between items-end mt-2">
+                        <span className="text-sm font-bold text-slate-900">Total per Clean</span>
+                        <div className="text-right">
+                           {priceDetails.discount > 0 && (
+                             <span className="text-xs text-slate-400 line-through mr-2">${priceDetails.base}</span>
+                           )}
+                           <span className="text-xl font-extrabold text-brand-blue">${priceDetails.final}</span>
+                        </div>
+                     </div>
+                   </motion.div>
+
                  </motion.div>
                )}
 
@@ -617,23 +698,29 @@ export const LeadForm: React.FC = () => {
              {step < 3 ? (
                 <button 
                   onClick={nextStep}
-                  className="w-full h-14 bg-gradient-to-r from-slate-900 to-slate-800 text-white font-bold rounded-xl shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:shadow-slate-900/40 transition-all flex items-center justify-center gap-2 group relative overflow-hidden active:scale-98"
+                  className="w-full h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold rounded-[14px] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/40 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group relative overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                   <span className="relative z-10 flex items-center gap-2">Next Step <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span>
                 </button>
              ) : (
                <div className="flex gap-4 items-center">
                   <div className="flex-1">
                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Estimated Total</p>
-                     <p className="text-3xl font-extrabold text-slate-900 flex items-center leading-none">
-                        <span className="text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
-                     </p>
+                     <div className="flex items-baseline gap-2">
+                        {/* Strikethrough for discount */}
+                        {priceDetails.discount > 0 && (
+                          <span className="text-sm text-slate-400 font-bold line-through decoration-red-400 decoration-2">${priceDetails.base}</span>
+                        )}
+                        <p className="text-3xl font-extrabold text-slate-900 flex items-center leading-none">
+                            <span className="text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
+                        </p>
+                     </div>
                   </div>
                   <button 
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-[2] h-14 bg-gradient-to-r from-brand-blue to-cyan-500 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 transition-all flex items-center justify-center gap-2 active:scale-95 relative overflow-hidden"
+                    className="flex-[2] h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold text-lg rounded-[14px] shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
                   >
                     {/* Shimmer Effect */}
                     <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%,100%_100%] animate-[shimmer_2s_linear_infinite]" />
