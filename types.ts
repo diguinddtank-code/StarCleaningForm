@@ -1,19 +1,42 @@
 export interface LeadFormData {
+  // Step 1: Contact
   name: string;
   email: string;
   phone: string;
   zipCode: string;
-  serviceType: string;
+
+  // Step 2: Home Details
+  bedrooms: number;
+  bathrooms: number;
+  sqFt: number;
+  people: number;
+  pets: {
+    dogs: boolean;
+    cats: boolean;
+    none: boolean;
+  };
+
+  // Step 3: Service
+  cleaningType: 'one-time' | 'recurring';
+  serviceDetail: string; // e.g., 'Deep Clean', 'Weekly - Premium'
+  
+  // Calculated
+  estimatedPrice: number;
 }
 
 export interface ServiceOption {
-  value: string;
+  id: string;
   label: string;
+  type: 'one-time' | 'recurring';
+  multiplier?: number; // Price multiplier (e.g., 1.3 for Deep Clean)
+  discount?: number; // Discount percentage (e.g., 0.2 for Weekly)
+  tag?: string; // "Popular", "Best Value"
+  description?: string;
 }
 
-export const SERVICE_OPTIONS: ServiceOption[] = [
-  { value: 'Standard Cleaning', label: 'Standard Residential Cleaning' },
-  { value: 'Deep Cleaning', label: 'Deep Cleaning / Spring Cleaning' },
-  { value: 'Move-In/Move-Out', label: 'Move-In / Move-Out' },
-  { value: 'Office Cleaning', label: 'Commercial / Office Cleaning' },
-];
+// Configuration for the Pricing Engine
+export const PRICING_CONFIG = {
+  BASE_PRICE: 100,
+  PER_BEDROOM: 20,
+  PER_BATHROOM: 15,
+};
