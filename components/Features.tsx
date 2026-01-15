@@ -83,7 +83,7 @@ export const WhyChooseUs: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-10"
         >
           {features.map((feature, idx) => (
             <motion.div 
@@ -253,7 +253,7 @@ export const Services: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, idx) => (
             <motion.div 
               key={idx}
@@ -301,7 +301,7 @@ export const Testimonials: React.FC = () => {
         </div>
 
         {/* Community Group Post Simulation */}
-        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden relative">
+        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden relative max-w-2xl mx-auto">
             {/* Fake Facebook/Nextdoor Header */}
             <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">

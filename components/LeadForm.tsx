@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info } from 'lucide-react';
+import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info, Clock, Box, FileCheck } from 'lucide-react';
 import { LeadFormData, PRICING_CONFIG } from '../types';
 
 // --- Types & Constants within Component ---
@@ -13,14 +13,14 @@ const STEPS = {
 
 const ONE_TIME_SERVICES = [
   { id: 'design-time', label: 'Design with Time', multiplier: 1.0, desc: 'Standard customizable clean.' },
-  { id: 'deep-clean', label: 'Deep Clean', multiplier: 1.3, tag: 'Popular', desc: 'Thorough top-to-bottom scrub.' },
+  { id: 'deep-clean', label: 'Deep Clean', multiplier: 1.3, tag: 'High Demand', desc: 'Thorough top-to-bottom scrub.' },
   { id: 'move-in-out', label: 'Move-In / Move-Out', multiplier: 1.5, desc: 'Empty home turnaround.' },
 ];
 
 const RECURRING_SERVICES = [
-  { id: 'weekly', label: 'Weekly - Premium', discount: 0.20, tag: '1st Clean 50% OFF', desc: 'Then save 20% forever' },
-  { id: 'bi-weekly', label: 'Every 2 Weeks', discount: 0.15, tag: '1st Clean 50% OFF', desc: 'Then save 15% forever' },
-  { id: 'monthly', label: 'Every 4 Weeks', discount: 0.10, desc: 'Save 10% every month' },
+  { id: 'weekly', label: 'Weekly - Premium', discount: 0.20, tag: '💎 Best Value', desc: 'Maximize savings (20% Off)' },
+  { id: 'bi-weekly', label: 'Every 2 Weeks', discount: 0.15, tag: '🔥 Most Popular', desc: 'Perfect balance (15% Off)' },
+  { id: 'monthly', label: 'Every 4 Weeks', discount: 0.10, desc: 'Consistent clean (10% Off)' },
 ];
 
 // --- Helper Components ---
@@ -70,33 +70,171 @@ const FocusInput = ({
   );
 };
 
-const SuccessModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+// IMPROVED SUCCESS MODAL
+const SuccessModal: React.FC<{ onClose: () => void; name: string }> = ({ onClose, name }) => {
+  // Generate a random reference ID for "official" feel
+  const refId = `REF-${Math.floor(1000 + Math.random() * 9000)}`;
+  const firstName = name.split(' ')[0] || "Customer";
+
+  // Animation Variants
+  const modalContainerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { 
+        type: "spring",
+        duration: 0.6,
+        bounce: 0.3,
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      filter: 'blur(0px)',
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
+  const checkPathVariants = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: { 
+      pathLength: 1, 
+      opacity: 1, 
+      transition: { 
+        duration: 0.6, 
+        ease: "easeInOut",
+        delay: 0.2 // Wait for modal to pop before drawing
+      } 
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xl"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md"
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="bg-white rounded-[2rem] shadow-2xl max-w-md w-full relative overflow-hidden"
+        variants={modalContainerVariants}
+        initial="hidden"
+        animate="visible"
+        exit={{ opacity: 0, scale: 0.9 }}
+        className="bg-white rounded-[24px] shadow-2xl max-w-md w-full relative overflow-hidden"
       >
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-colors z-20"><X className="w-5 h-5" /></button>
-        <div className="p-8 pt-12 text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="w-10 h-10 text-green-600" />
-          </div>
-          <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Quote Request Sent!</h3>
-          <p className="text-slate-600 mb-8">We have received your details. One of our experts will call you shortly to confirm your booking slot.</p>
-          <div className="space-y-3">
-             <a href="tel:8432979935" className="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-brand-blue text-white font-bold shadow-lg hover:shadow-xl transition-all">
-                <Phone className="w-5 h-5" /> Call Us Now
-             </a>
-             <button onClick={onClose} className="w-full p-4 rounded-xl border border-slate-200 font-bold text-slate-500 hover:bg-slate-50 transition-all">Close</button>
-          </div>
+        {/* Decorative Header Background */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-brand-blue to-blue-600"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+        
+        <button 
+            onClick={onClose} 
+            className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full text-white transition-colors z-20"
+        >
+            <X className="w-5 h-5" />
+        </button>
+
+        <div className="relative pt-8 px-6 pb-8">
+            {/* Success Icon with Drawing Animation */}
+            <motion.div variants={itemVariants} className="mx-auto w-20 h-20 bg-white rounded-full p-1.5 shadow-xl mb-6 relative z-10">
+                <div className="w-full h-full bg-green-50 rounded-full flex items-center justify-center border-2 border-green-100">
+                    <svg className="w-10 h-10 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <motion.path 
+                           variants={checkPathVariants}
+                           d="M20 6L9 17l-5-5" 
+                        />
+                    </svg>
+                </div>
+                {/* Floating particles */}
+                <motion.div 
+                    animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }} 
+                    transition={{ repeat: Infinity, duration: 3 }} 
+                    className="absolute -top-2 right-0"
+                >
+                    <Sparkles className="w-6 h-6 text-yellow-400 fill-yellow-400 drop-shadow-sm" />
+                </motion.div>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="text-center mb-8">
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Quote Received!</h3>
+                <p className="text-slate-500 font-medium">Thanks, {firstName}. We've secured your spot in line.</p>
+            </motion.div>
+
+            {/* "Official" Details Card - Staggered Content */}
+            <motion.div 
+                variants={itemVariants}
+                className="bg-slate-50 rounded-xl border border-slate-100 p-4 mb-6 relative overflow-hidden"
+            >
+                <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-200 border-dashed">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Reference ID</span>
+                    <motion.span 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.8, type: "spring" }}
+                        className="text-sm font-mono font-bold text-slate-700 bg-white px-2 py-1 rounded border border-slate-200"
+                    >
+                        {refId}
+                    </motion.span>
+                </div>
+                
+                <div className="space-y-4">
+                    <motion.div 
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1 }}
+                        className="flex gap-3"
+                    >
+                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                            <FileCheck className="w-4 h-4 text-brand-blue" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-slate-900 uppercase">Step 1: Review</p>
+                            <p className="text-xs text-slate-500 leading-snug">Our team is reviewing your home details right now to ensure accurate pricing.</p>
+                        </div>
+                    </motion.div>
+                    
+                    <motion.div 
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1.2 }}
+                        className="flex gap-3"
+                    >
+                        <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                            <Phone className="w-4 h-4 text-amber-600" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-slate-900 uppercase">Step 2: Confirmation</p>
+                            <p className="text-xs text-slate-500 leading-snug">Look for a call from <strong>(843) 297-9935</strong> within 15 minutes to confirm availability.</p>
+                        </div>
+                    </motion.div>
+                </div>
+            </motion.div>
+
+            {/* Actions */}
+            <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
+                <button 
+                    onClick={onClose} 
+                    className="w-full p-4 rounded-xl border-2 border-slate-100 font-bold text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all text-sm"
+                >
+                    Close
+                </button>
+                <a 
+                    href="tel:8432979935" 
+                    className="flex items-center justify-center gap-2 w-full p-4 rounded-xl bg-brand-blue text-white font-bold shadow-lg shadow-blue-500/30 hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm group"
+                >
+                    <Phone className="w-4 h-4 group-hover:animate-pulse" /> Call Us Now
+                </a>
+            </motion.div>
+            
+            <motion.p variants={itemVariants} className="text-center text-[10px] text-slate-400 mt-4 font-medium">
+                StarCleaning Services • Charleston, SC
+            </motion.p>
         </div>
       </motion.div>
     </motion.div>
@@ -160,6 +298,7 @@ export const LeadForm: React.FC = () => {
       if (service) {
         discount = service.discount || 0;
         finalPrice = finalPrice * (1 - discount);
+        // Only trigger promo if explicity tagged
         if (service.tag && service.tag.includes('50%')) {
             isFirstCleanPromo = true;
         }
@@ -326,7 +465,7 @@ export const LeadForm: React.FC = () => {
 
   return (
     <>
-      <AnimatePresence>{showSuccessModal && <SuccessModal onClose={() => setShowSuccessModal(false)} />}</AnimatePresence>
+      <AnimatePresence>{showSuccessModal && <SuccessModal onClose={() => setShowSuccessModal(false)} name={formData.name} />}</AnimatePresence>
 
       <div className="relative group perspective-1000 w-full max-w-lg mx-auto">
         <div className="absolute -inset-0.5 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-[2rem] blur-2xl opacity-50"></div>
@@ -607,76 +746,103 @@ export const LeadForm: React.FC = () => {
                         onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[0].id}) }}
                         className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        Recurring <span className="hidden md:inline text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold tracking-tight">50% OFF</span>
+                        Recurring <span className="hidden md:inline text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold tracking-tight">Save 20%</span>
                       </button>
                    </div>
 
                    {/* Options List */}
                    <div className="space-y-3">
-                     {(formData.cleaningType === 'one-time' ? ONE_TIME_SERVICES : RECURRING_SERVICES).map((option) => (
-                       <motion.div 
-                          key={option.id}
-                          whileHover={{ scale: 1.01 }}
-                          whileTap={{ scale: 0.99 }}
-                          onClick={() => setFormData({...formData, serviceDetail: option.id})}
-                          className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.serviceDetail === option.id ? 'border-brand-blue bg-blue-50/40' : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'}`}
-                       >
-                          {option.tag && (
-                            <motion.span 
-                              animate={option.tag.includes('50%') ? { scale: [1, 1.05, 1] } : {}}
-                              transition={{ duration: 2, repeat: Infinity }}
-                              className={`absolute -top-2.5 right-4 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm ${option.tag.includes('50%') ? 'bg-gradient-to-r from-red-500 to-pink-600 shadow-red-500/30' : 'bg-gradient-to-r from-orange-400 to-amber-500'}`}
-                            >
-                              {option.tag}
-                            </motion.span>
-                          )}
-                          <div className="flex justify-between items-center">
-                             <div>
-                               <p className={`text-sm font-bold ${formData.serviceDetail === option.id ? 'text-brand-blue' : 'text-slate-900'}`}>{option.label}</p>
-                               <p className="text-xs text-slate-500 font-medium mt-0.5 flex items-center gap-1">
-                                 {option.desc}
-                               </p>
-                             </div>
-                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${formData.serviceDetail === option.id ? 'border-brand-blue bg-brand-blue' : 'border-slate-200'}`}>
-                                <motion.div animate={{ scale: formData.serviceDetail === option.id ? 1 : 0 }}>
-                                   <Check className="w-3 h-3 text-white" />
-                                </motion.div>
-                             </div>
-                          </div>
-                       </motion.div>
-                     ))}
-                   </div>
+                        {(formData.cleaningType === 'one-time' ? ONE_TIME_SERVICES : RECURRING_SERVICES).map((option) => (
+                        <motion.div 
+                            key={option.id}
+                            whileHover={{ scale: 1.02, y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setFormData({...formData, serviceDetail: option.id})}
+                            className={`relative p-3 sm:p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4 group overflow-hidden ${
+                            formData.serviceDetail === option.id 
+                            ? 'border-brand-blue bg-white shadow-xl shadow-blue-500/10 ring-1 ring-brand-blue/50' 
+                            : 'border-slate-100 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-slate-200/50'
+                            }`}
+                        >
+                            {/* Selection Background Fill */}
+                            <div className={`absolute inset-0 bg-blue-50/50 transition-opacity duration-300 pointer-events-none ${formData.serviceDetail === option.id ? 'opacity-100' : 'opacity-0'}`} />
+
+                            {/* Discount/Popular Tag - Inline Badge for Mobile Safety */}
+                            {option.tag && (
+                            <div className={`absolute top-0 right-0 px-3 py-1 rounded-bl-xl text-[10px] font-bold uppercase tracking-wider z-10 shadow-sm ${
+                                option.tag.includes('Best') || option.tag.includes('Popular')
+                                ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' 
+                                : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
+                            }`}>
+                                {option.tag}
+                            </div>
+                            )}
+                            
+                            {/* Icon - Left Column */}
+                            <div className={`relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
+                            formData.serviceDetail === option.id 
+                            ? 'bg-brand-blue text-white shadow-md shadow-blue-500/30 rotate-3' 
+                            : 'bg-slate-50 text-slate-400 group-hover:bg-blue-100 group-hover:text-brand-blue'
+                            }`}>
+                                {option.id === 'design-time' ? <Clock className="w-5 h-5 sm:w-6 sm:h-6" /> :
+                                option.id === 'deep-clean' ? <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" /> :
+                                option.id === 'move-in-out' ? <Box className="w-5 h-5 sm:w-6 sm:h-6" /> :
+                                <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
+                                }
+                            </div>
+
+                            {/* Text Content - Middle Column */}
+                            <div className={`relative z-10 min-w-0 ${option.tag ? 'pr-2' : ''}`}>
+                                <h4 className={`text-sm sm:text-base font-bold truncate transition-colors ${formData.serviceDetail === option.id ? 'text-brand-blue' : 'text-slate-800'}`}>
+                                    {option.label}
+                                </h4>
+                                <p className="text-xs text-slate-500 font-medium mt-0.5 truncate">
+                                    {option.desc}
+                                </p>
+                            </div>
+
+                            {/* Selection Indicator - Right Column */}
+                            <div className={`relative z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
+                            formData.serviceDetail === option.id 
+                            ? 'border-brand-blue bg-brand-blue scale-110' 
+                            : 'border-slate-200 bg-transparent group-hover:border-blue-300'
+                            }`}>
+                                <AnimatePresence>
+                                    {formData.serviceDetail === option.id && (
+                                    <motion.div 
+                                        initial={{ scale: 0 }} 
+                                        animate={{ scale: 1 }}
+                                        exit={{ scale: 0 }}
+                                    >
+                                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white stroke-[3]" />
+                                    </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        </motion.div>
+                        ))}
+                    </div>
                    
                    {/* PRICE SUMMARY SECTION */}
                    <motion.div 
                      initial={{ opacity: 0, y: 10 }}
                      animate={{ opacity: 1, y: 0 }}
-                     className="mt-6 pt-4 border-t-2 border-dashed border-slate-200"
+                     className="mt-6 pt-4 border-t-2 border-dashed border-slate-200 space-y-2"
                    >
-                     <div className="flex justify-between items-center mb-1">
+                     <div className="flex justify-between items-center">
                         <span className="text-xs text-slate-500 font-medium">Standard Service Value</span>
                         <span className="text-xs font-bold text-slate-700">${priceDetails.base}</span>
                      </div>
                      
-                     {priceDetails.discount > 0 && (
-                       <div className="flex justify-between items-center mb-1">
+                     {/* Discount Row - Always render placeholder to prevent height jump */}
+                     <div className={`flex justify-between items-center transition-opacity duration-200 ${priceDetails.discount > 0 ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
                           <span className="text-xs text-green-600 font-bold flex items-center gap-1">
                             <Tag className="w-3 h-3" /> Frequency Discount
                           </span>
                           <span className="text-xs font-bold text-green-600">-${priceDetails.savings}</span>
-                       </div>
-                     )}
+                     </div>
 
-                     {priceDetails.isFirstCleanPromo && (
-                        <div className="flex justify-between items-center mb-2 bg-red-50 p-2 rounded-lg border border-red-100 mt-2">
-                           <span className="text-xs text-red-600 font-extrabold flex items-center gap-1">
-                             <Sparkles className="w-3 h-3" /> FIRST CLEAN SPECIAL
-                           </span>
-                           <span className="text-xs font-bold text-red-600">50% OFF</span>
-                        </div>
-                     )}
-
-                     <div className="flex justify-between items-end mt-2">
+                     <div className="flex justify-between items-end mt-1">
                         <span className="text-sm font-bold text-slate-900">Total per Clean</span>
                         <div className="text-right">
                            {priceDetails.discount > 0 && (

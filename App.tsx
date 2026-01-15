@@ -60,22 +60,23 @@ const Hero = () => {
   const { scrollY } = useScroll();
   
   // Parallax effect: Video moves slower than scroll (y moves down as we scroll down)
+  // Adjusted for mobile to be less aggressive to avoid "jumping"
   const y = useTransform(scrollY, [0, 1000], [0, 400]);
   
   // Dynamic overlay: Darkens as user scrolls to maintain focus/readability or fade out
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
 
   return (
-    <section className="relative min-h-[100dvh] md:h-[100vh] flex items-center justify-center overflow-hidden pt-16 md:pt-20">
+    <section className="relative min-h-[100dvh] h-auto lg:h-screen flex items-center justify-center overflow-hidden pt-28 pb-12 lg:py-0">
       
       {/* Parallax Background Container */}
       <motion.div 
         style={{ y }}
         className="absolute inset-0 w-full h-full z-0 flex items-center justify-center"
       >
-        {/* Overlay: Darkened gradient for better text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-blue-900/80 to-blue-900/40 z-10 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-black/20 z-10"></div>
+        {/* Overlay: Darkened gradient for better text contrast - Stronger on mobile */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-blue-900/60 lg:bg-gradient-to-r lg:from-slate-900/90 lg:via-blue-900/80 lg:to-blue-900/40 z-10 mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-black/40 lg:bg-black/20 z-10"></div>
         
         {/* Reliable Video Source (Pexels) - Bright, airy room */}
         <video 
@@ -84,7 +85,7 @@ const Hero = () => {
           muted 
           playsInline
           poster="https://images.unsplash.com/photo-1527513231362-77879e6b9a05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          className="w-full h-full object-cover object-center scale-110" // scale-110 to ensure coverage during parallax movement
+          className="w-full h-full object-cover object-[center_40%] lg:object-center scale-105" // scale-105 ensures coverage
         >
           <source src="https://websites.godaddy.com/categories/v4/videos/raw/video/wVb4Eem" type="video/mp4" />
           Your browser does not support the video tag.
@@ -97,52 +98,52 @@ const Hero = () => {
         className="absolute inset-0 bg-black z-10 pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full py-6 md:py-0">
-        <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-20 items-center h-full">
           
           {/* Left Side Copy */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "circOut" }}
-            className="lg:col-span-7 text-white text-center lg:text-left mt-4 md:mt-0"
+            className="lg:col-span-7 text-white text-center lg:text-left flex flex-col items-center lg:items-start"
           >
             {/* Trust Pill - High Social Proof */}
             <motion.div 
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-xs md:text-sm font-bold uppercase tracking-wider mb-4 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-5 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
             >
-              <div className="flex -space-x-3">
-                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+              <div className="flex -space-x-2 md:-space-x-3">
+                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
               </div>
-              <span>Trusted by 500+ Neighbors</span>
+              <span className="ml-1">Trusted by 500+ Neighbors</span>
             </motion.div>
             
-            {/* CRO: Headline Change to Benefit/Pain Relief - Mobile Sizing Adjusted */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6 tracking-tight drop-shadow-lg shadow-black/20">
+            {/* CRO: Headline - Adjusted size for mobile readability */}
+            <h1 className="text-[2.75rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 md:mb-8 tracking-tight drop-shadow-lg shadow-black/20">
               Reclaim Your <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">Weekends.</span>
             </h1>
             
-            <p className="text-base md:text-2xl text-blue-100 mb-6 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-blue-100 mb-6 md:mb-10 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
               Don't spend your free time cleaning. We bring 5-star hotel standards to your home.
             </p>
 
-            <div className="flex flex-row flex-wrap justify-center lg:justify-start gap-3 md:gap-4 text-xs md:text-sm font-bold mb-6 lg:mb-0">
-              <div className="flex items-center gap-2 bg-blue-950/60 px-4 py-2 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
-                <div className="bg-green-500 rounded-full p-0.5 md:p-1">
-                  <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-white" />
+            <div className="hidden lg:flex flex-row flex-wrap justify-start gap-4 md:gap-6 text-sm md:text-base font-bold">
+              <div className="flex items-center gap-3 bg-blue-950/60 px-5 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+                <div className="bg-green-500 rounded-full p-1">
+                  <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
                 <span>100% Guaranteed</span>
               </div>
-              <div className="flex items-center gap-2 bg-blue-950/60 px-4 py-2 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
-                <div className="bg-brand-gold rounded-full p-0.5 md:p-1">
-                  <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-white" />
+              <div className="flex items-center gap-3 bg-blue-950/60 px-5 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+                <div className="bg-brand-gold rounded-full p-1">
+                  <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
                 <span>Fast Booking</span>
               </div>
@@ -151,16 +152,26 @@ const Hero = () => {
 
           {/* Right Side Form - Floating Card */}
           <motion.div 
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
-            className="lg:col-span-5 w-full pb-8 md:pb-0"
+            className="lg:col-span-5 w-full flex justify-center lg:justify-end"
           >
-            <div className="transform md:translate-y-0 relative group">
-              {/* Glow Effect behind form */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-600 rounded-2xl blur-lg opacity-40 group-hover:opacity-60 transition duration-1000"></div>
-              <div className="relative">
+            <div className="transform md:translate-y-0 relative group w-full max-w-lg">
+              {/* Glow Effect behind form - reduced opacity on mobile */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-600 rounded-2xl blur-lg opacity-30 lg:opacity-40 group-hover:opacity-60 transition duration-1000"></div>
+              <div className="relative" id="lead-quote-form">
                 <LeadForm />
+              </div>
+              
+              {/* Mobile Trust Signals (Moved here for mobile layout) */}
+              <div className="flex lg:hidden justify-center gap-4 mt-6 text-xs text-white/80 font-semibold">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" /> 100% Guaranteed
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400" /> Fast Booking
+                </div>
               </div>
             </div>
           </motion.div>
@@ -171,7 +182,7 @@ const Hero = () => {
       {/* Scroll indicator - hidden on mobile to save vertical space */}
       <motion.div 
         style={{ opacity: useTransform(scrollY, [0, 200], [1, 0]) }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-20"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 z-20"
       >
         <span className="text-white/80 text-xs font-semibold tracking-widest uppercase">Scroll</span>
         <div className="w-6 h-10 rounded-full border-2 border-white/40 flex items-start justify-center p-1">
