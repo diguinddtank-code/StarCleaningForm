@@ -67,7 +67,7 @@ const Hero = () => {
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
 
   return (
-    <section className="relative min-h-[100dvh] h-auto lg:h-screen flex items-center justify-center overflow-hidden pt-28 pb-12 lg:py-0">
+    <section className="relative min-h-[100dvh] h-auto lg:h-screen flex items-center justify-center overflow-hidden pt-20 pb-8 lg:py-0">
       
       {/* Parallax Background Container */}
       <motion.div 
@@ -99,7 +99,8 @@ const Hero = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-20 items-center h-full">
+        {/* Changed grid gap-8 to gap-4 on mobile to pull form closer */}
+        <div className="grid lg:grid-cols-12 gap-4 lg:gap-8 xl:gap-20 items-center h-full">
           
           {/* Left Side Copy */}
           <motion.div 
@@ -113,7 +114,7 @@ const Hero = () => {
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-5 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-3 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
             >
               <div className="flex -space-x-2 md:-space-x-3">
                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
@@ -124,13 +125,13 @@ const Hero = () => {
               <span className="ml-1">Trusted by 500+ Neighbors</span>
             </motion.div>
             
-            {/* CRO: Headline - Adjusted size for mobile readability */}
-            <h1 className="text-[2.75rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 md:mb-8 tracking-tight drop-shadow-lg shadow-black/20">
+            {/* CRO: Headline - Adjusted size for mobile readability (smaller to save space) */}
+            <h1 className="text-[2.5rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-3 md:mb-8 tracking-tight drop-shadow-lg shadow-black/20">
               Reclaim Your <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">Weekends.</span>
             </h1>
             
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-blue-100 mb-6 md:mb-10 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
+            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-blue-100 mb-4 md:mb-10 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
               Don't spend your free time cleaning. We bring 5-star hotel standards to your home.
             </p>
 
