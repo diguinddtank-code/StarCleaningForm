@@ -152,6 +152,8 @@ export const BeforeAfter: React.FC = () => {
                <img 
                 src={limpa} 
                 alt="Clean Room" 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover pointer-events-none"
               />
               {/* Sparkles on the clean side */}
@@ -184,6 +186,8 @@ export const BeforeAfter: React.FC = () => {
                <img 
                 src={imageSrc} 
                 alt="Dirty Room" 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover filter sepia-[0.3] brightness-[0.8] contrast-[1.1] grayscale-[0.2] blur-[0.5px]"
               />
               {/* Overlay text for 'Before' */}
@@ -320,7 +324,13 @@ export const Testimonials: React.FC = () => {
                 {/* The "Question" Post */}
                 <div className="p-6 md:p-8 bg-white">
                     <div className="flex gap-4">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Neighbor" className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+                        <img 
+                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                            alt="Neighbor" 
+                            loading="lazy"
+                            decoding="async"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" 
+                        />
                         <div>
                             <p className="font-bold text-slate-900">Jessica Miller</p>
                             <p className="text-xs text-slate-400 mb-2">2h ago • Summerville, SC</p>
@@ -372,7 +382,13 @@ export const Testimonials: React.FC = () => {
                         transition={{ delay: 0.4 }}
                         className="flex gap-3"
                     >
-                         <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Reviewer" className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0" />
+                         <img 
+                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                            alt="Reviewer" 
+                            loading="lazy"
+                            decoding="async"
+                            className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0" 
+                         />
                          <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 flex-grow ring-2 ring-blue-100">
                              <p className="font-bold text-slate-900 text-sm">Sarah Jenkins</p>
                              <p className="text-slate-600 text-sm mt-1">

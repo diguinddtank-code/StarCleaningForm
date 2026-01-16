@@ -79,12 +79,13 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 lg:bg-black/20 z-10"></div>
         
         {/* Reliable Video Source (Pexels) - Bright, airy room */}
+        {/* PERFORMANCE OPTIMIZATION: Reduced poster size (w=1080) and quality (q=60) to speed up LCP */}
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          poster="https://images.unsplash.com/photo-1527513231362-77879e6b9a05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          poster="https://images.unsplash.com/photo-1527513231362-77879e6b9a05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=60"
           className="w-full h-full object-cover object-[center_40%] lg:object-center scale-105" // scale-105 ensures coverage
         >
           <source src="https://websites.godaddy.com/categories/v4/videos/raw/video/wVb4Eem" type="video/mp4" />
@@ -120,10 +121,11 @@ const Hero = () => {
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-3 md:mb-6 hover:bg-white/20 transition-colors cursor-default"
             >
               <div className="flex -space-x-2 md:-space-x-3">
-                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
-                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 {/* Images optimized to small size (w=64) to save bandwidth */}
+                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=60" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=64&q=60" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&q=60" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
+                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=64&q=60" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
               </div>
               <span className="ml-1">Trusted by 500+ Neighbors</span>
             </motion.div>
