@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info, Clock, Box, FileCheck } from 'lucide-react';
+import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info, Clock, Box, FileCheck, CreditCard } from 'lucide-react';
 import { LeadFormData, PRICING_CONFIG } from '../types';
 
 // --- Types & Constants within Component ---
@@ -60,7 +60,7 @@ const FocusInput = ({
         </div>
         <motion.input
           layout
-          className="w-full pl-10 pr-4 h-12 bg-transparent outline-none text-slate-900 font-bold placeholder:text-slate-300 text-sm md:text-base rounded-xl"
+          className="w-full pl-10 pr-4 h-12 2xl:h-14 bg-transparent outline-none text-slate-900 font-bold placeholder:text-slate-300 text-sm md:text-base rounded-xl"
           {...props}
         />
         {/* Subtle glow effect on focus */}
@@ -467,7 +467,8 @@ export const LeadForm: React.FC = () => {
     <>
       <AnimatePresence>{showSuccessModal && <SuccessModal onClose={() => setShowSuccessModal(false)} name={formData.name} />}</AnimatePresence>
 
-      <div className="relative group perspective-1000 w-full max-w-lg mx-auto">
+      <div className="relative group perspective-1000 w-full max-w-lg lg:max-w-lg 2xl:max-w-xl mx-auto">
+        <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-600 rounded-[2rem] blur-lg opacity-30 lg:opacity-40 group-hover:opacity-50 transition duration-1000"></div>
         <div className="absolute -inset-0.5 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-[2rem] blur-2xl opacity-50"></div>
         
         <div className="bg-white/95 backdrop-blur-3xl rounded-[2rem] border border-white/60 shadow-2xl overflow-hidden relative min-h-[550px] flex flex-col transition-all duration-300">
@@ -525,7 +526,7 @@ export const LeadForm: React.FC = () => {
           </div>
 
           {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-24 scrollbar-thin scrollbar-thumb-slate-200">
+          <div className="flex-1 overflow-y-auto px-6 md:px-8 xl:px-10 pb-24 scrollbar-thin scrollbar-thumb-slate-200">
              <AnimatePresence custom={direction} mode="wait">
                
                {/* STEP 1: CONTACT */}
@@ -661,7 +662,7 @@ export const LeadForm: React.FC = () => {
                               whileTap={{ scale: 0.95 }}
                               key={num}
                               onClick={() => setFormData({...formData, bedrooms: num})}
-                              className={`flex-1 h-12 rounded-xl text-sm font-bold border-2 transition-all duration-200 ${formData.bedrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/20' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
+                              className={`flex-1 h-12 2xl:h-14 rounded-xl text-sm font-bold border-2 transition-all duration-200 ${formData.bedrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/20' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
                             >
                               {num}{num === 5 ? '+' : ''}
                             </motion.button>
@@ -678,7 +679,7 @@ export const LeadForm: React.FC = () => {
                               whileTap={{ scale: 0.95 }}
                               key={num}
                               onClick={() => setFormData({...formData, bathrooms: num})}
-                              className={`flex-1 h-12 rounded-xl text-sm font-bold border-2 transition-all duration-200 ${formData.bathrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/20' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
+                              className={`flex-1 h-12 2xl:h-14 rounded-xl text-sm font-bold border-2 transition-all duration-200 ${formData.bathrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/20' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
                             >
                               {num}{num === 5 ? '+' : ''}
                             </motion.button>
@@ -872,28 +873,39 @@ export const LeadForm: React.FC = () => {
              ) : (
                <div className="flex gap-4 items-center">
                   <div className="flex-1">
-                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Estimated Total</p>
-                     <div className="flex items-baseline gap-2">
-                        {/* Strikethrough for discount */}
-                        {priceDetails.discount > 0 && (
-                          <span className="text-sm text-slate-400 font-bold line-through decoration-red-400 decoration-2">${priceDetails.base}</span>
-                        )}
-                        <p className="text-3xl font-extrabold text-slate-900 flex items-center leading-none">
-                            <span className="text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
-                        </p>
+                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Estimated Price</p>
+                     <div className="flex flex-col">
+                        <div className="flex items-baseline gap-2">
+                            {/* Strikethrough for discount */}
+                            {priceDetails.discount > 0 && (
+                              <span className="text-sm text-slate-400 font-bold line-through decoration-red-400 decoration-2">${priceDetails.base}</span>
+                            )}
+                            <p className="text-3xl font-extrabold text-slate-900 flex items-center leading-none">
+                                <span className="text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
+                            </p>
+                        </div>
+                        {/* CRO: Pay After Service Badge */}
+                        <div className="flex items-center gap-1 mt-1 text-green-600 bg-green-50 px-2 py-0.5 rounded-full w-fit">
+                            <CreditCard className="w-3 h-3" />
+                            <span className="text-[9px] font-bold uppercase tracking-tight">Pay After Service</span>
+                        </div>
                      </div>
                   </div>
                   <button 
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-[2] h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold text-lg rounded-[14px] shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
+                    className="flex-[1.8] h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold text-base rounded-[14px] shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden"
                   >
                     {/* Shimmer Effect */}
                     <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%,100%_100%] animate-[shimmer_2s_linear_infinite]" />
                     
                     <span className="relative z-10 flex items-center gap-2">
-                       {isSubmitting ? <Loader2 className="animate-spin" /> : "Book Now"}
+                       {isSubmitting ? <Loader2 className="animate-spin" /> : "Reserve Slot"}
                     </span>
+                    {/* CRO: No Payment Required Subtext */}
+                    {!isSubmitting && (
+                        <span className="relative z-10 text-[10px] font-normal opacity-90">No payment required today</span>
+                    )}
                   </button>
                </div>
              )}

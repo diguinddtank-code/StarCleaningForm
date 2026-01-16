@@ -67,7 +67,7 @@ const Hero = () => {
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
 
   return (
-    <section className="relative min-h-[100dvh] h-auto lg:h-screen flex items-center justify-center overflow-hidden pt-20 pb-8 lg:py-0">
+    <section className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 lg:pt-20 lg:pb-0">
       
       {/* Parallax Background Container */}
       <motion.div 
@@ -98,23 +98,26 @@ const Hero = () => {
         className="absolute inset-0 bg-black z-10 pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full">
-        {/* Changed grid gap-8 to gap-4 on mobile to pull form closer */}
-        <div className="grid lg:grid-cols-12 gap-4 lg:gap-8 xl:gap-20 items-center h-full">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full">
+        {/* Grid Layout Adjustment:
+            - lg (Laptops): 6 cols text / 6 cols form
+            - gap: Reduced to 12 on XL to keep elements closer on 15" screens
+        */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center h-full">
           
           {/* Left Side Copy */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "circOut" }}
-            className="lg:col-span-7 text-white text-center lg:text-left flex flex-col items-center lg:items-start"
+            className="lg:col-span-6 text-white text-center lg:text-left flex flex-col items-center lg:items-start"
           >
             {/* Trust Pill - High Social Proof */}
             <motion.div 
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-3 md:mb-8 hover:bg-white/20 transition-colors cursor-default"
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white text-[10px] md:text-sm font-bold uppercase tracking-wider mb-3 md:mb-6 hover:bg-white/20 transition-colors cursor-default"
             >
               <div className="flex -space-x-2 md:-space-x-3">
                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&q=80" alt="Client" className="w-6 h-6 md:w-8 md:h-8 rounded-full border-2 border-white object-cover" />
@@ -125,24 +128,27 @@ const Hero = () => {
               <span className="ml-1">Trusted by 500+ Neighbors</span>
             </motion.div>
             
-            {/* CRO: Headline - Adjusted size for mobile readability (smaller to save space) */}
-            <h1 className="text-[2.5rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-3 md:mb-8 tracking-tight drop-shadow-lg shadow-black/20">
+            {/* CRO: Headline - Optimized for 15" screens (lg:text-5xl) to avoid wrapping issues 
+                Changed xl:text-7xl to xl:text-6xl for better fit on 1440px screens. 
+                7xl now reserved for 2xl screens.
+            */}
+            <h1 className="text-[2.5rem] leading-[1.1] sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-3 md:mb-6 tracking-tight drop-shadow-lg shadow-black/20">
               Reclaim Your <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-white">Weekends.</span>
             </h1>
             
-            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-blue-100 mb-4 md:mb-10 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
+            <p className="text-sm sm:text-lg md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-md">
               Don't spend your free time cleaning. We bring 5-star hotel standards to your home.
             </p>
 
-            <div className="hidden lg:flex flex-row flex-wrap justify-start gap-4 md:gap-6 text-sm md:text-base font-bold">
-              <div className="flex items-center gap-3 bg-blue-950/60 px-5 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+            <div className="hidden lg:flex flex-row flex-wrap justify-start gap-4 text-sm font-bold">
+              <div className="flex items-center gap-3 bg-blue-950/60 px-4 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
                 <div className="bg-green-500 rounded-full p-1">
                   <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
                 <span>100% Guaranteed</span>
               </div>
-              <div className="flex items-center gap-3 bg-blue-950/60 px-5 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
+              <div className="flex items-center gap-3 bg-blue-950/60 px-4 py-3 rounded-xl backdrop-blur-md border border-white/10 shadow-lg">
                 <div className="bg-brand-gold rounded-full p-1">
                   <CheckCircle2 className="w-4 h-4 text-white" />
                 </div>
@@ -156,16 +162,14 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
-            className="lg:col-span-5 w-full flex justify-center lg:justify-end"
+            className="lg:col-span-6 w-full flex justify-center lg:justify-end"
           >
-            <div className="transform md:translate-y-0 relative group w-full max-w-lg">
-              {/* Glow Effect behind form - reduced opacity on mobile */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-600 rounded-2xl blur-lg opacity-30 lg:opacity-40 group-hover:opacity-60 transition duration-1000"></div>
+            <div className="transform md:translate-y-0 relative group w-full">
               <div className="relative" id="lead-quote-form">
                 <LeadForm />
               </div>
               
-              {/* Mobile Trust Signals (Moved here for mobile layout) */}
+              {/* Mobile Trust Signals */}
               <div className="flex lg:hidden justify-center gap-4 mt-6 text-xs text-white/80 font-semibold">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-green-400" /> 100% Guaranteed
@@ -180,7 +184,7 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Scroll indicator - hidden on mobile to save vertical space */}
+      {/* Scroll indicator */}
       <motion.div 
         style={{ opacity: useTransform(scrollY, [0, 200], [1, 0]) }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 z-20"
