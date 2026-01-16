@@ -67,7 +67,7 @@ const Hero = () => {
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
 
   return (
-    <section className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 lg:pt-20 lg:pb-0">
+    <section className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20 lg:py-32">
       
       {/* Parallax Background Container */}
       <motion.div 
