@@ -110,11 +110,27 @@ export const WhyChooseUs: React.FC = () => {
 export const BeforeAfter: React.FC = () => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Performance Optimization: Cache rect dimensions to avoid Forced Reflow during mousemove
+  const containerRect = useRef<{ left: number, width: number } | null>(null);
+
+  const updateRect = () => {
+    if (containerRef.current) {
+        const { left, width } = containerRef.current.getBoundingClientRect();
+        containerRect.current = { left, width };
+    }
+  };
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent) => {
-    if (!containerRef.current) return;
+    // If we don't have rect data, fallback or return. 
+    // We update rect on mouse enter / touch start to ensure freshness without reflow loop.
+    if (!containerRect.current && containerRef.current) {
+        updateRect();
+    }
+    
+    if (!containerRect.current) return;
 
-    const { left, width } = containerRef.current.getBoundingClientRect();
+    const { left, width } = containerRect.current;
     let clientX;
 
     if ('touches' in event) {
@@ -128,8 +144,10 @@ export const BeforeAfter: React.FC = () => {
   };
 
   // Image source - High quality living room
-  const imageSrc = "https://i.imgur.com/XhU71Rx.jpeg";
-  const limpa = "https://i.imgur.com/gpqI75L.jpeg"
+  // Optimized: Added 'h' suffix to Imgur IDs for 1024px limit (Huge Thumbnail) instead of original raw size
+  const imageSrc = "https://i.imgur.com/XhU71Rxh.jpg"; // Was .jpeg
+  const limpa = "https://i.imgur.com/gpqI75Lh.jpg"; // Was .jpeg
+  
   return (
     <section className="py-16 md:py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,7 +157,11 @@ export const BeforeAfter: React.FC = () => {
          </div>
 
         {/* Mobile Opt: Aspect Ratio 4/5 (Tall) on mobile, 21/9 (Wide) on desktop */}
-        <div className="relative w-full max-w-5xl mx-auto aspect-[4/5] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100 select-none group touch-none">
+        <div 
+            className="relative w-full max-w-5xl mx-auto aspect-[4/5] md:aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100 select-none group touch-none"
+            onMouseEnter={updateRect}
+            onTouchStart={updateRect}
+        >
           
           <div 
             ref={containerRef}
