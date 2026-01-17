@@ -526,7 +526,7 @@ export const LeadForm: React.FC = () => {
           </div>
 
           {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto px-6 md:px-8 xl:px-10 pb-24 scrollbar-thin scrollbar-thumb-slate-200">
+          <div className="flex-1 overflow-y-auto px-6 md:px-8 xl:px-10 pb-28 scrollbar-thin scrollbar-thumb-slate-200">
              <AnimatePresence custom={direction} mode="wait">
                
                {/* STEP 1: CONTACT */}
@@ -736,18 +736,18 @@ export const LeadForm: React.FC = () => {
                    className="space-y-4 pt-2"
                  >
                    {/* Tabs */}
-                   <div className="flex p-1 bg-slate-100 rounded-xl mb-4">
+                   <div className="flex p-1 bg-slate-100 rounded-xl mb-4 overflow-x-auto no-scrollbar touch-pan-x">
                       <button 
                         onClick={() => { setFormData({...formData, cleaningType: 'one-time', serviceDetail: ONE_TIME_SERVICES[0].id}) }}
-                        className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-300 ${formData.cleaningType === 'one-time' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`flex-1 py-2.5 px-2 text-xs font-bold rounded-lg transition-all duration-300 whitespace-nowrap ${formData.cleaningType === 'one-time' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
                       >
                         One-Time Clean
                       </button>
                       <button 
                         onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[0].id}) }}
-                        className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`flex-1 py-2.5 px-2 text-xs font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-sm scale-100' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        Recurring <span className="hidden md:inline text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold tracking-tight">Save 20%</span>
+                        Recurring <span className="text-[9px] sm:text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold tracking-tight">Save 20%</span>
                       </button>
                    </div>
 
@@ -828,7 +828,7 @@ export const LeadForm: React.FC = () => {
                    <motion.div 
                      initial={{ opacity: 0, y: 10 }}
                      animate={{ opacity: 1, y: 0 }}
-                     className="mt-6 pt-4 border-t-2 border-dashed border-slate-200 space-y-2"
+                     className="mt-6 pt-4 border-t-2 border-dashed border-slate-200 space-y-2 pb-6"
                    >
                      <div className="flex justify-between items-center">
                         <span className="text-xs text-slate-500 font-medium">Standard Service Value</span>
@@ -845,7 +845,7 @@ export const LeadForm: React.FC = () => {
 
                      <div className="flex justify-between items-end mt-1">
                         <span className="text-sm font-bold text-slate-900">Total per Clean</span>
-                        <div className="text-right">
+                        <div className="text-right flex flex-col items-end sm:block">
                            {priceDetails.discount > 0 && (
                              <span className="text-xs text-slate-400 line-through mr-2">${priceDetails.base}</span>
                            )}
@@ -861,7 +861,7 @@ export const LeadForm: React.FC = () => {
           </div>
 
           {/* Sticky Footer */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-md border-t border-slate-100 z-20">
+          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-white/90 backdrop-blur-md border-t border-slate-100 z-20 safe-bottom">
              {step < 3 ? (
                 <button 
                   onClick={nextStep}
@@ -871,40 +871,41 @@ export const LeadForm: React.FC = () => {
                   <span className="relative z-10 flex items-center gap-2">Next Step <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></span>
                 </button>
              ) : (
-               <div className="flex gap-4 items-center">
-                  <div className="flex-1">
-                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Estimated Price</p>
-                     <div className="flex flex-col">
-                        <div className="flex items-baseline gap-2">
-                            {/* Strikethrough for discount */}
-                            {priceDetails.discount > 0 && (
-                              <span className="text-sm text-slate-400 font-bold line-through decoration-red-400 decoration-2">${priceDetails.base}</span>
-                            )}
-                            <p className="text-3xl font-extrabold text-slate-900 flex items-center leading-none">
-                                <span className="text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
-                            </p>
-                        </div>
-                        {/* CRO: Pay After Service Badge */}
-                        <div className="flex items-center gap-1 mt-1 text-green-600 bg-green-50 px-2 py-0.5 rounded-full w-fit">
-                            <CreditCard className="w-3 h-3" />
-                            <span className="text-[9px] font-bold uppercase tracking-tight">Pay After Service</span>
-                        </div>
+               <div className="flex gap-3 sm:gap-4 items-center justify-between">
+                  <div className="flex flex-col justify-center min-w-0">
+                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide truncate">Estimated Price</p>
+                     
+                     <div className="flex items-baseline gap-1.5 flex-wrap">
+                        {/* Strikethrough for discount */}
+                        {priceDetails.discount > 0 && (
+                          <span className="text-xs sm:text-sm text-slate-400 font-bold line-through decoration-red-400 decoration-2">${priceDetails.base}</span>
+                        )}
+                        <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center leading-none">
+                            <span className="text-sm sm:text-lg mr-0.5 text-slate-400 align-top mt-1">$</span>{formData.estimatedPrice}
+                        </p>
+                     </div>
+                     
+                     {/* CRO: Pay Badge */}
+                     <div className="flex items-center gap-1 mt-1 text-green-600 bg-green-50 px-2 py-0.5 rounded-full w-fit max-w-full">
+                        <CreditCard className="w-3 h-3 flex-shrink-0" />
+                        <span className="text-[9px] font-bold uppercase tracking-tight whitespace-nowrap truncate">Pay After Service</span>
                      </div>
                   </div>
+                  
                   <button 
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-[1.8] h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold text-base rounded-[14px] shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden"
+                    className="flex-1 h-12 sm:h-14 bg-gradient-to-r from-[#0ea5e9] to-[#3b82f6] text-white font-bold text-sm sm:text-base rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden min-w-[120px]"
                   >
                     {/* Shimmer Effect */}
                     <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%,100%_100%] animate-[shimmer_2s_linear_infinite]" />
                     
-                    <span className="relative z-10 flex items-center gap-2">
-                       {isSubmitting ? <Loader2 className="animate-spin" /> : "Reserve Slot"}
+                    <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                       {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Reserve Slot"}
                     </span>
                     {/* CRO: No Payment Required Subtext */}
                     {!isSubmitting && (
-                        <span className="relative z-10 text-[10px] font-normal opacity-90">No payment required today</span>
+                        <span className="relative z-10 text-[9px] sm:text-[10px] font-normal opacity-90 whitespace-nowrap">No payment required</span>
                     )}
                   </button>
                </div>
