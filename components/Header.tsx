@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 
 export const Header: React.FC = () => {
 
@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="absolute w-full top-0 z-50 py-6 border-b border-white/10">
+    <header className="absolute w-full top-0 z-50 py-6 md:border-b border-white/10">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           
@@ -30,7 +30,7 @@ export const Header: React.FC = () => {
               alt="Star Cleaning Logo" 
               width="143"
               height="75"
-              className="h-10 md:h-12 w-auto object-contain brightness-0 invert drop-shadow-md"
+              className="h-14 md:h-16 w-auto object-contain brightness-0 invert drop-shadow-md"
             />
           </div>
 
@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
 
           {/* --- RIGHT: ACTIONS --- */}
           <div className="flex items-center gap-4 md:gap-8">
-            {/* Phone Number - Hidden on small mobile */}
+            {/* Phone Number - Hidden on small mobile, visible on desktop */}
             <a 
               href="tel:8432979935" 
               className="hidden md:flex flex-col items-end transition-colors duration-300 group text-white"
@@ -66,11 +66,19 @@ export const Header: React.FC = () => {
                 (843) 297-9935
               </span>
             </a>
+
+            {/* MOBILE ONLY: Phone Button */}
+            <a 
+              href="tel:8432979935"
+              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg active:scale-95 transition-all hover:bg-white/20"
+            >
+              <Phone className="w-6 h-6 fill-current" />
+            </a>
             
-            {/* HIGH EMPHASIS CTA BUTTON */}
+            {/* DESKTOP ONLY: Get Quote Button */}
             <button 
               onClick={scrollToForm}
-              className="relative group overflow-hidden rounded-full p-[2px] transition-all duration-300 active:scale-95 shadow-[0_0_30px_-5px_rgba(14,165,233,0.4)] hover:shadow-[0_0_40px_-5px_rgba(14,165,233,0.6)]"
+              className="hidden md:block relative group overflow-hidden rounded-full p-[2px] transition-all duration-300 active:scale-95 shadow-[0_0_30px_-5px_rgba(14,165,233,0.4)] hover:shadow-[0_0_40px_-5px_rgba(14,165,233,0.6)]"
             >
               {/* Animated Gradient Border */}
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-spin-slow opacity-100" />
