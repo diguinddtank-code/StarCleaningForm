@@ -1,44 +1,91 @@
 import React from 'react';
-import { Phone, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const Header: React.FC = () => {
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToForm = () => {
+    const formElement = document.getElementById('lead-quote-form');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => document.getElementById('name')?.focus(), 500);
+    }
+  };
+
   return (
-    <header className="fixed w-full top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-blue-50 shadow-sm h-16 md:h-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex justify-between items-center h-full">
+    <header className="absolute w-full top-0 z-50 py-6 border-b border-white/10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center">
           
-          {/* Logo - Mobile Optimized Size */}
-          <div className="flex items-center">
+          {/* --- LEFT: LOGO --- */}
+          <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <img 
               src="https://img1.wsimg.com/isteam/ip/97a5d835-7b16-4991-b3c6-3d6956b6b82b/ESBOC%CC%A7O-STAR-CLEANING_full.png/:/rs=w:143,h:75,cg:true,m/cr=w:143,h:75/qt=q:95" 
               alt="Star Cleaning Logo" 
-              className="h-10 md:h-14 w-auto object-contain"
+              width="143"
+              height="75"
+              className="h-10 md:h-12 w-auto object-contain brightness-0 invert drop-shadow-md"
             />
           </div>
 
-          {/* Call to Action - Stylized */}
-          <div className="flex items-center gap-3 md:gap-6">
-            <div className="hidden md:flex flex-col items-end">
-              <span className="text-[10px] font-bold tracking-widest text-brand-blue uppercase flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                Available Now
-              </span>
-              <a href="tel:8432979935" className="text-gray-900 font-bold text-lg leading-none hover:text-brand-blue transition-colors">
-                (843) 297-9935
-              </a>
-            </div>
-            
+          {/* --- CENTER: DESKTOP NAVIGATION --- */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {[
+              { label: 'Services', id: 'services' },
+              { label: 'Our Process', id: 'process' },
+              { label: 'Reviews', id: 'reviews' },
+              { label: 'FAQ', id: 'faq' }
+            ].map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className="text-sm font-bold tracking-wide transition-all duration-300 hover:-translate-y-0.5 text-white/90 hover:text-white drop-shadow-sm"
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* --- RIGHT: ACTIONS --- */}
+          <div className="flex items-center gap-4 md:gap-8">
+            {/* Phone Number - Hidden on small mobile */}
             <a 
-              href="tel:8432979935"
-              className="group relative overflow-hidden bg-gradient-to-r from-brand-blue to-cyan-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-bold flex items-center gap-2 md:gap-3 transition-all shadow-md shadow-blue-500/20 active:scale-95"
+              href="tel:8432979935" 
+              className="hidden md:flex flex-col items-end transition-colors duration-300 group text-white"
             >
-              <div className="absolute inset-0 bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out -skew-x-12 transform origin-left"></div>
-              <div className="bg-white/20 p-1 md:p-1.5 rounded-full">
-                <Phone className="w-3.5 h-3.5 md:w-4 md:h-4 fill-current" />
-              </div>
-              <span className="text-xs md:text-base z-10">Get a Quote</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest mb-0.5 text-blue-200">
+                Call Us 24/7
+              </span>
+              <span className="font-extrabold text-lg leading-none group-hover:text-brand-blue transition-colors">
+                (843) 297-9935
+              </span>
             </a>
+            
+            {/* HIGH EMPHASIS CTA BUTTON */}
+            <button 
+              onClick={scrollToForm}
+              className="relative group overflow-hidden rounded-full p-[2px] transition-all duration-300 active:scale-95 shadow-[0_0_30px_-5px_rgba(14,165,233,0.4)] hover:shadow-[0_0_40px_-5px_rgba(14,165,233,0.6)]"
+            >
+              {/* Animated Gradient Border */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-spin-slow opacity-100" />
+              
+              {/* Button Content */}
+              <div className="relative bg-gradient-to-r from-brand-blue to-blue-600 text-white px-6 py-3 md:px-8 md:py-3.5 rounded-full flex items-center gap-2 transition-all group-hover:bg-opacity-90">
+                 {/* Shine Effect */}
+                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out skew-x-12" />
+                 
+                 <span className="font-extrabold text-sm md:text-base tracking-wide z-10">GET A QUOTE</span>
+                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5 z-10 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
+              </div>
+            </button>
           </div>
+
         </div>
       </div>
     </header>
