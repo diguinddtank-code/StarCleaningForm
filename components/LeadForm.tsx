@@ -326,7 +326,15 @@ export const LeadForm: React.FC = () => {
         body: JSON.stringify({ ...formData, cityDetected: city }),
       });
       if (typeof window !== 'undefined' && (window as any).fbq) {
+          // Track Lead
           (window as any).fbq('track', 'Lead', {
+            content_name: 'Instant Quote Booking',
+            value: formData.estimatedPrice,
+            currency: 'USD',
+          });
+          
+          // Track Subscribe (Added)
+          (window as any).fbq('track', 'Subscribe', {
             content_name: 'Instant Quote Booking',
             value: formData.estimatedPrice,
             currency: 'USD',
