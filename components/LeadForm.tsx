@@ -13,15 +13,15 @@ const STEPS = {
 
 // Simplified options without pricing logic
 const ONE_TIME_SERVICES = [
-  { id: 'design-time', label: 'Standard Clean', desc: 'Perfect for maintenance.' },
-  { id: 'deep-clean', label: 'Deep Clean', tag: 'High Demand', desc: 'Thorough top-to-bottom scrub.' },
-  { id: 'move-in-out', label: 'Move-In / Move-Out', desc: 'Empty home turnaround.' },
+  { id: 'design-time', label: 'Standard Clean', desc: 'Maintenance.' },
+  { id: 'deep-clean', label: 'Deep Clean', tag: 'High Demand', desc: 'Thorough scrub.' },
+  { id: 'move-in-out', label: 'Move-In/Out', desc: 'Empty home.' },
 ];
 
 const RECURRING_SERVICES = [
-  { id: 'weekly', label: 'Weekly', tag: '💎 Max Savings', desc: 'Keep it spotless effortlessly.' },
-  { id: 'bi-weekly', label: 'Every 2 Weeks', tag: '🔥 Most Popular', desc: 'The perfect balance.' },
-  { id: 'monthly', label: 'Every 4 Weeks', desc: 'Consistent maintenance.' },
+  { id: 'weekly', label: 'Weekly', tag: '💎 Max Savings', desc: 'Spotless effortless.' },
+  { id: 'bi-weekly', label: 'Every 2 Wks', tag: '🔥 Popular', desc: 'Perfect balance.' },
+  { id: 'monthly', label: 'Every 4 Wks', desc: 'Consistent clean.' },
 ];
 
 // --- Helper Components ---
@@ -40,14 +40,14 @@ const FocusInput = ({
   isSuccess?: boolean
 } & HTMLMotionProps<"input">) => {
   return (
-    <div className="space-y-2 group">
-      <label className="text-[11px] font-extrabold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-brand-blue transition-colors flex justify-between">
+    <div className="space-y-1 md:space-y-2 group">
+      <label className="text-[10px] md:text-[11px] font-extrabold text-slate-500 ml-1 uppercase tracking-wider group-focus-within:text-brand-blue transition-colors flex justify-between">
         {label}
         {isSuccess && <span className="text-green-600 flex items-center gap-1 text-[10px] normal-case bg-green-50 px-2 rounded-full"><CheckCircle className="w-3 h-3" /> Valid</span>}
       </label>
       <motion.div 
         whileTap={{ scale: 0.995 }}
-        className={`relative flex items-center bg-slate-50 border transition-all duration-300 ease-out rounded-2xl
+        className={`relative flex items-center bg-slate-50 border transition-all duration-300 ease-out rounded-xl md:rounded-2xl
           ${error 
             ? 'border-red-300 bg-red-50 ring-2 ring-red-100' 
             : isSuccess
@@ -56,12 +56,12 @@ const FocusInput = ({
           }
         `}
       >
-        <div className={`absolute left-4 transition-colors duration-300 ${error ? 'text-red-400' : isSuccess ? 'text-green-500' : 'text-slate-400 group-focus-within:text-brand-blue'}`}>
-          <Icon className="w-5 h-5" strokeWidth={1.5} />
+        <div className={`absolute left-3 md:left-4 transition-colors duration-300 ${error ? 'text-red-400' : isSuccess ? 'text-green-500' : 'text-slate-400 group-focus-within:text-brand-blue'}`}>
+          <Icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
         </div>
         <motion.input
           layout
-          className="w-full pl-12 pr-4 h-14 bg-transparent outline-none text-slate-900 font-bold placeholder:text-slate-300 text-base rounded-2xl"
+          className="w-full pl-10 md:pl-12 pr-4 h-11 md:h-14 bg-transparent outline-none text-slate-900 font-bold placeholder:text-slate-300 text-sm md:text-base rounded-xl md:rounded-2xl"
           {...props}
         />
       </motion.div>
@@ -315,18 +315,19 @@ export const LeadForm: React.FC = () => {
         {/* Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-600 rounded-[2.5rem] blur-xl opacity-30 lg:opacity-40 group-hover:opacity-50 transition duration-1000"></div>
         
-        <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] border border-white/80 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] overflow-hidden relative min-h-[580px] flex flex-col transition-all duration-300">
+        {/* Main Card Container - Adjusted height for mobile */}
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl md:rounded-[2.5rem] border border-white/80 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] overflow-hidden relative min-h-[420px] md:min-h-[580px] flex flex-col transition-all duration-300">
           
-          {/* Header Progress */}
-          <div className="px-6 pt-8 pb-4 relative z-10">
-            <div className="flex items-center justify-between mb-6">
+          {/* Header Progress - Compact on mobile */}
+          <div className="px-4 md:px-6 pt-5 md:pt-8 pb-3 md:pb-4 relative z-10">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
                <div className="flex items-center gap-2">
                  {step > 1 && (
                     <button 
                       onClick={prevStep} 
-                      className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                      className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                     >
-                      <ArrowLeft className="w-5 h-5" />
+                      <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
                  )}
                </div>
@@ -336,16 +337,16 @@ export const LeadForm: React.FC = () => {
                    <motion.div 
                     key={i} 
                     layout
-                    className={`h-1.5 rounded-full transition-colors duration-500 ${i <= step ? 'bg-brand-blue shadow-[0_0_10px_rgba(14,165,233,0.5)]' : 'bg-slate-100'}`}
-                    animate={{ width: i === step ? 36 : 8 }} 
+                    className={`h-1 md:h-1.5 rounded-full transition-colors duration-500 ${i <= step ? 'bg-brand-blue shadow-[0_0_10px_rgba(14,165,233,0.5)]' : 'bg-slate-100'}`}
+                    animate={{ width: i === step ? 24 : 6 }} 
                    />
                  ))}
                </div>
                
-               <div className="w-9" /> 
+               <div className="w-8 md:w-9" /> 
             </div>
             
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-1 md:space-y-2">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={step}
@@ -354,23 +355,23 @@ export const LeadForm: React.FC = () => {
                   exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <h3 className="text-2xl font-extrabold text-slate-900 leading-tight">
+                  <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">
                     {step === 1 && "Get Your Free Quote"}
-                    {step === 2 && "Tell Us About Your Home"}
-                    {step === 3 && "Select Service Type"}
+                    {step === 2 && "Home Details"}
+                    {step === 3 && "Select Service"}
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium">
-                    {step === 1 && "Start here. It takes less than 30 seconds."}
-                    {step === 2 && "We'll tailor the team size to your needs."}
-                    {step === 3 && "Choose the plan that suits you best."}
+                  <p className="text-slate-500 text-xs md:text-sm font-medium">
+                    {step === 1 && "Takes less than 30 seconds."}
+                    {step === 2 && "We'll tailor the team size."}
+                    {step === 3 && "Choose the best plan."}
                   </p>
                 </motion.div>
               </AnimatePresence>
             </div>
           </div>
 
-          {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-32 scrollbar-hide">
+          {/* Scrollable Content Area - Adjusted padding */}
+          <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-24 md:pb-32 scrollbar-hide">
              <AnimatePresence custom={direction} mode="wait">
                
                {/* STEP 1: CONTACT */}
@@ -383,7 +384,7 @@ export const LeadForm: React.FC = () => {
                    animate="center"
                    exit="exit"
                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                   className="space-y-5 pt-2"
+                   className="space-y-3 md:space-y-5 pt-1 md:pt-2"
                  >
                     <FocusInput 
                       icon={User} 
@@ -406,7 +407,7 @@ export const LeadForm: React.FC = () => {
                       error={!!error && !formData.email}
                     />
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
                       <FocusInput 
                         icon={Phone} 
                         label="Phone Number" 
@@ -430,7 +431,7 @@ export const LeadForm: React.FC = () => {
                           isSuccess={!!city}
                         />
                         {isCheckingZip && (
-                          <div className="absolute right-3 top-[38px]">
+                          <div className="absolute right-3 top-[32px] md:top-[38px]">
                             <Loader2 className="w-4 h-4 animate-spin text-brand-blue" />
                           </div>
                         )}
@@ -443,16 +444,16 @@ export const LeadForm: React.FC = () => {
                           initial={{ opacity: 0, height: 0, scale: 0.95 }}
                           animate={{ opacity: 1, height: 'auto', scale: 1 }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="bg-green-50 border border-green-100 rounded-xl p-3 flex items-start gap-3 shadow-sm"
+                          className="bg-green-50 border border-green-100 rounded-xl p-2 md:p-3 flex items-start gap-3 shadow-sm"
                         >
-                          <div className="bg-white p-1.5 rounded-full mt-0.5 shadow-sm">
-                            <Sparkles className="w-4 h-4 text-green-600 fill-green-100" />
+                          <div className="bg-white p-1 md:p-1.5 rounded-full mt-0.5 shadow-sm">
+                            <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-green-600 fill-green-100" />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-slate-800">
+                            <p className="text-xs md:text-sm font-bold text-slate-800">
                               Available in <span className="text-green-600">{city}</span>!
                             </p>
-                            <p className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
+                            <p className="text-[10px] md:text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
                               High demand: <span className="font-bold text-slate-700">{bookingsNearby} neighbors</span> booked this week.
                             </p>
                           </div>
@@ -464,20 +465,20 @@ export const LeadForm: React.FC = () => {
                       <motion.div 
                         initial={{ opacity: 0, y: -10 }} 
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-3 bg-red-50 text-red-600 text-xs font-bold rounded-xl text-center border border-red-100 flex items-center justify-center gap-2"
+                        className="p-2 md:p-3 bg-red-50 text-red-600 text-[10px] md:text-xs font-bold rounded-xl text-center border border-red-100 flex items-center justify-center gap-2"
                       >
-                        <ShieldCheck className="w-4 h-4" /> {error}
+                        <ShieldCheck className="w-3 h-3 md:w-4 md:h-4" /> {error}
                       </motion.div>
                     )}
                     
-                    <div className="flex justify-center gap-6 pt-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-300">
+                    <div className="flex justify-center gap-6 pt-2 md:pt-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-300">
                        <div className="flex items-center gap-1.5">
-                         <Lock className="w-3.5 h-3.5 text-green-500" />
-                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SSL Encrypted</span>
+                         <Lock className="w-3 h-3 md:w-3.5 md:h-3.5 text-green-500" />
+                         <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider">SSL Encrypted</span>
                        </div>
                        <div className="flex items-center gap-1.5">
-                         <Receipt className="w-3.5 h-3.5 text-brand-blue" />
-                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">No Spam Promise</span>
+                         <Receipt className="w-3 h-3 md:w-3.5 md:h-3.5 text-brand-blue" />
+                         <span className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider">No Spam Promise</span>
                        </div>
                     </div>
                  </motion.div>
@@ -493,18 +494,18 @@ export const LeadForm: React.FC = () => {
                    animate="center"
                    exit="exit"
                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                   className="space-y-6 pt-2"
+                   className="space-y-4 md:space-y-6 pt-1 md:pt-2"
                  >
                     {/* Bedrooms */}
-                    <div className="space-y-2">
-                       <label className="flex items-center gap-2 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider"><Home className="w-4 h-4 text-brand-blue" /> Bedrooms</label>
+                    <div className="space-y-1 md:space-y-2">
+                       <label className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold text-slate-500 uppercase tracking-wider"><Home className="w-3 h-3 md:w-4 md:h-4 text-brand-blue" /> Bedrooms</label>
                        <div className="flex gap-2">
                           {[1, 2, 3, 4, 5].map(num => (
                             <motion.button
                               whileTap={{ scale: 0.95 }}
                               key={num}
                               onClick={() => setFormData({...formData, bedrooms: num})}
-                              className={`flex-1 h-14 rounded-2xl text-base font-bold border transition-all duration-200 ${formData.bedrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/30 ring-2 ring-blue-200' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
+                              className={`flex-1 h-10 md:h-14 rounded-xl md:rounded-2xl text-sm md:text-base font-bold border transition-all duration-200 ${formData.bedrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/30 ring-2 ring-blue-200' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
                             >
                               {num}{num === 5 ? '+' : ''}
                             </motion.button>
@@ -513,15 +514,15 @@ export const LeadForm: React.FC = () => {
                     </div>
 
                     {/* Bathrooms */}
-                    <div className="space-y-2">
-                       <label className="flex items-center gap-2 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider"><Sparkles className="w-4 h-4 text-brand-blue" /> Bathrooms</label>
+                    <div className="space-y-1 md:space-y-2">
+                       <label className="flex items-center gap-2 text-[10px] md:text-[11px] font-extrabold text-slate-500 uppercase tracking-wider"><Sparkles className="w-3 h-3 md:w-4 md:h-4 text-brand-blue" /> Bathrooms</label>
                        <div className="flex gap-2">
                           {[1, 2, 3, 4, 5].map(num => (
                             <motion.button
                               whileTap={{ scale: 0.95 }}
                               key={num}
                               onClick={() => setFormData({...formData, bathrooms: num})}
-                              className={`flex-1 h-14 rounded-2xl text-base font-bold border transition-all duration-200 ${formData.bathrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/30 ring-2 ring-blue-200' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
+                              className={`flex-1 h-10 md:h-14 rounded-xl md:rounded-2xl text-sm md:text-base font-bold border transition-all duration-200 ${formData.bathrooms === num ? 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-blue-500/30 ring-2 ring-blue-200' : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-slate-300 hover:bg-white'}`}
                             >
                               {num}{num === 5 ? '+' : ''}
                             </motion.button>
@@ -530,35 +531,35 @@ export const LeadForm: React.FC = () => {
                     </div>
 
                     {/* Sq Ft */}
-                    <div className="space-y-3 p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
+                    <div className="space-y-2 md:space-y-3 p-3 md:p-5 bg-slate-50/50 rounded-xl md:rounded-2xl border border-slate-100">
                        <div className="flex justify-between items-center">
-                         <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Approx. Size</label>
-                         <span className="text-sm font-bold text-brand-blue bg-blue-50 px-3 py-1 rounded-lg border border-blue-100">{formData.sqFt.toLocaleString()} sq ft</span>
+                         <label className="text-[10px] md:text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Approx. Size</label>
+                         <span className="text-xs md:text-sm font-bold text-brand-blue bg-blue-50 px-2 py-0.5 md:px-3 md:py-1 rounded-lg border border-blue-100">{formData.sqFt.toLocaleString()} sq ft</span>
                        </div>
                        <input 
                           type="range" min="500" max="5000" step="100" 
                           value={formData.sqFt} 
                           onChange={(e) => setFormData({...formData, sqFt: Number(e.target.value)})}
-                          className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-blue"
+                          className="w-full h-1.5 md:h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-blue"
                        />
-                       <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase">
+                       <div className="flex justify-between text-[9px] md:text-[10px] text-slate-400 font-bold uppercase">
                           <span>Small Apt</span>
                           <span>Large Home</span>
                        </div>
                     </div>
 
                     {/* Pets */}
-                    <div className="space-y-2">
-                       <label className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Pets in Home</label>
-                       <div className="flex gap-3">
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('dogs')} className={`flex-1 py-4 px-3 rounded-2xl border flex items-center justify-center gap-2 transition-all ${formData.pets.dogs ? 'bg-blue-50 border-brand-blue text-brand-blue shadow-sm' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
-                             <Dog className="w-5 h-5" /> <span className="text-xs font-bold">Dogs</span>
+                    <div className="space-y-1 md:space-y-2">
+                       <label className="text-[10px] md:text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Pets in Home</label>
+                       <div className="flex gap-2 md:gap-3">
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('dogs')} className={`flex-1 py-3 md:py-4 px-2 md:px-3 rounded-xl md:rounded-2xl border flex items-center justify-center gap-1.5 md:gap-2 transition-all ${formData.pets.dogs ? 'bg-blue-50 border-brand-blue text-brand-blue shadow-sm' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
+                             <Dog className="w-4 h-4 md:w-5 md:h-5" /> <span className="text-[10px] md:text-xs font-bold">Dogs</span>
                           </motion.button>
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('cats')} className={`flex-1 py-4 px-3 rounded-2xl border flex items-center justify-center gap-2 transition-all ${formData.pets.cats ? 'bg-blue-50 border-brand-blue text-brand-blue shadow-sm' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
-                             <Cat className="w-5 h-5" /> <span className="text-xs font-bold">Cats</span>
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('cats')} className={`flex-1 py-3 md:py-4 px-2 md:px-3 rounded-xl md:rounded-2xl border flex items-center justify-center gap-1.5 md:gap-2 transition-all ${formData.pets.cats ? 'bg-blue-50 border-brand-blue text-brand-blue shadow-sm' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
+                             <Cat className="w-4 h-4 md:w-5 md:h-5" /> <span className="text-[10px] md:text-xs font-bold">Cats</span>
                           </motion.button>
-                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('none')} className={`flex-1 py-4 px-3 rounded-2xl border flex items-center justify-center gap-2 transition-all ${formData.pets.none ? 'bg-slate-800 border-slate-800 text-white shadow-lg' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
-                             <span className="text-xs font-bold">None</span>
+                          <motion.button whileTap={{ scale: 0.95 }} onClick={() => togglePet('none')} className={`flex-1 py-3 md:py-4 px-2 md:px-3 rounded-xl md:rounded-2xl border flex items-center justify-center gap-1.5 md:gap-2 transition-all ${formData.pets.none ? 'bg-slate-800 border-slate-800 text-white shadow-lg' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
+                             <span className="text-[10px] md:text-xs font-bold">None</span>
                           </motion.button>
                        </div>
                     </div>
@@ -575,33 +576,33 @@ export const LeadForm: React.FC = () => {
                    animate="center"
                    exit="exit"
                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                   className="space-y-4 pt-2"
+                   className="space-y-3 md:space-y-4 pt-1 md:pt-2"
                  >
                    {/* Custom Tab Switcher */}
-                   <div className="flex p-1.5 bg-slate-100/80 rounded-2xl mb-4 overflow-hidden">
+                   <div className="flex p-1 bg-slate-100/80 rounded-xl md:rounded-2xl mb-2 md:mb-4 overflow-hidden">
                       <button 
                         onClick={() => { setFormData({...formData, cleaningType: 'one-time', serviceDetail: ONE_TIME_SERVICES[0].id}) }}
-                        className={`flex-1 py-3 px-2 text-xs font-bold rounded-xl transition-all duration-300 ${formData.cleaningType === 'one-time' ? 'bg-white text-brand-blue shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`flex-1 py-2 md:py-3 px-2 text-[10px] md:text-xs font-bold rounded-lg md:rounded-xl transition-all duration-300 ${formData.cleaningType === 'one-time' ? 'bg-white text-brand-blue shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        One-Time Clean
+                        One-Time
                       </button>
                       <button 
                         onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[0].id}) }}
-                        className={`flex-1 py-3 px-2 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`flex-1 py-2 md:py-3 px-2 text-[10px] md:text-xs font-bold rounded-lg md:rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        Recurring Clean
+                        Recurring
                       </button>
                    </div>
 
-                   {/* Options List */}
-                   <div className="space-y-3">
+                   {/* Options List - Compact padding on mobile */}
+                   <div className="space-y-2 md:space-y-3">
                         {(formData.cleaningType === 'one-time' ? ONE_TIME_SERVICES : RECURRING_SERVICES).map((option) => (
                         <motion.div 
                             key={option.id}
                             whileHover={{ scale: 1.01 }}
                             whileTap={{ scale: 0.99 }}
                             onClick={() => setFormData({...formData, serviceDetail: option.id})}
-                            className={`relative p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 grid grid-cols-[auto_1fr_auto] items-center gap-4 overflow-hidden ${
+                            className={`relative p-3 md:p-4 rounded-xl md:rounded-2xl border-2 cursor-pointer transition-all duration-300 grid grid-cols-[auto_1fr_auto] items-center gap-3 md:gap-4 overflow-hidden ${
                             formData.serviceDetail === option.id 
                             ? 'border-brand-blue bg-white shadow-xl shadow-blue-500/10' 
                             : 'border-slate-100 bg-white hover:border-blue-200'
@@ -612,7 +613,7 @@ export const LeadForm: React.FC = () => {
 
                             {/* Tags */}
                             {option.tag && (
-                            <div className={`absolute top-0 right-0 px-3 py-1 rounded-bl-2xl text-[10px] font-bold uppercase tracking-wider z-10 shadow-sm ${
+                            <div className={`absolute top-0 right-0 px-2 md:px-3 py-0.5 md:py-1 rounded-bl-xl md:rounded-bl-2xl text-[9px] md:text-[10px] font-bold uppercase tracking-wider z-10 shadow-sm ${
                                 option.tag.includes('Best') || option.tag.includes('Popular') || option.tag.includes('Max')
                                 ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' 
                                 : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
@@ -621,43 +622,43 @@ export const LeadForm: React.FC = () => {
                             </div>
                             )}
                             
-                            <div className={`relative z-10 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                            <div className={`relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-all duration-300 ${
                             formData.serviceDetail === option.id 
                             ? 'bg-brand-blue text-white shadow-md shadow-blue-500/30 rotate-3 scale-110' 
                             : 'bg-slate-50 text-slate-400'
                             }`}>
-                                {option.id === 'design-time' ? <Clock className="w-6 h-6" strokeWidth={1.5} /> :
-                                option.id === 'deep-clean' ? <Gem className="w-6 h-6" strokeWidth={1.5} /> :
-                                option.id === 'move-in-out' ? <Box className="w-6 h-6" strokeWidth={1.5} /> :
-                                <CalendarDays className="w-6 h-6" strokeWidth={1.5} />
+                                {option.id === 'design-time' ? <Clock className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} /> :
+                                option.id === 'deep-clean' ? <Gem className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} /> :
+                                option.id === 'move-in-out' ? <Box className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} /> :
+                                <CalendarDays className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
                                 }
                             </div>
 
                             <div className={`relative z-10 min-w-0 ${option.tag ? 'pr-2' : ''}`}>
-                                <h4 className={`text-base font-bold transition-colors ${formData.serviceDetail === option.id ? 'text-brand-blue' : 'text-slate-900'}`}>
+                                <h4 className={`text-sm md:text-base font-bold transition-colors ${formData.serviceDetail === option.id ? 'text-brand-blue' : 'text-slate-900'}`}>
                                     {option.label}
                                 </h4>
-                                <p className="text-xs text-slate-500 font-medium mt-0.5 truncate">
+                                <p className="text-[10px] md:text-xs text-slate-500 font-medium mt-0.5 truncate">
                                     {option.desc}
                                 </p>
                             </div>
 
-                            <div className={`relative z-10 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                            <div className={`relative z-10 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
                             formData.serviceDetail === option.id 
                             ? 'border-brand-blue bg-brand-blue scale-110' 
                             : 'border-slate-200 bg-transparent'
                             }`}>
-                                {formData.serviceDetail === option.id && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
+                                {formData.serviceDetail === option.id && <Check className="w-3 h-3 md:w-3.5 md:h-3.5 text-white stroke-[3]" />}
                             </div>
                         </motion.div>
                         ))}
                     </div>
 
                     {/* Friendly Note */}
-                    <div className="mt-4 p-4 bg-blue-50 rounded-2xl flex items-start gap-3">
-                         <Info className="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" />
-                         <p className="text-xs text-slate-600 leading-relaxed">
-                            <strong>Note:</strong> Pricing depends on home condition. We'll provide a custom quote immediately after you claim your offer.
+                    <div className="mt-2 md:mt-4 p-3 md:p-4 bg-blue-50 rounded-xl md:rounded-2xl flex items-start gap-2 md:gap-3">
+                         <Info className="w-4 h-4 md:w-5 md:h-5 text-brand-blue flex-shrink-0 mt-0.5" />
+                         <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">
+                            <strong>Note:</strong> Pricing depends on home condition. We'll provide a custom quote immediately.
                          </p>
                     </div>
 
@@ -668,28 +669,28 @@ export const LeadForm: React.FC = () => {
           </div>
 
           {/* Sticky Action Footer */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-xl border-t border-slate-100 z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+          <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-white/95 backdrop-blur-xl border-t border-slate-100 z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
              {step < 3 ? (
                 <button 
                   onClick={nextStep}
-                  className="w-full h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="w-full h-12 md:h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-xl md:rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  <span className="text-lg">Next Step</span> <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <span className="text-base md:text-lg">Next Step</span> <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
              ) : (
                <div className="flex gap-4 items-center">
                   <button 
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-1 h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group"
+                    className="flex-1 h-12 md:h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-xl md:rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group"
                   >
                     {/* Shine Effect */}
                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out skew-x-12" />
                     
-                    <span className="relative z-10 flex items-center gap-2 text-lg">
-                       {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Claim Offer & Get Quote"}
+                    <span className="relative z-10 flex items-center gap-2 text-base md:text-lg">
+                       {isSubmitting ? <Loader2 className="animate-spin w-4 h-4 md:w-5 md:h-5" /> : "Claim Offer & Get Quote"}
                     </span>
-                    {!isSubmitting && <span className="relative z-10 text-[10px] opacity-80 font-medium tracking-wide">Lock in your rate today</span>}
+                    {!isSubmitting && <span className="relative z-10 text-[9px] md:text-[10px] opacity-80 font-medium tracking-wide">Lock in your rate today</span>}
                   </button>
                </div>
              )}

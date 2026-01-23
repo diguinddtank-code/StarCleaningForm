@@ -72,7 +72,7 @@ const Hero = () => {
   const overlayOpacity = useTransform(scrollY, [0, 500], [0, 0.7]);
 
   return (
-    <section className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-8 md:pt-32 md:pb-20 lg:py-32">
+    <section className="relative min-h-[100dvh] lg:min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-6 md:pt-32 md:pb-20 lg:py-32">
       
       {/* Parallax Background Container */}
       <motion.div 
@@ -119,7 +119,7 @@ const Hero = () => {
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full h-full">
         {/* Grid Layout: Compact mobile to pull form up */}
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-16 items-center h-full">
+        <div className="grid lg:grid-cols-12 gap-4 lg:gap-8 xl:gap-16 items-center h-full">
           
           {/* Left Side Copy */}
           <motion.div 
@@ -128,12 +128,12 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "circOut" }}
             className="lg:col-span-6 text-white text-center lg:text-left flex flex-col items-center lg:items-start"
           >
-            {/* Trust Pill - High Social Proof - REDESIGNED */}
+            {/* Trust Pill - High Social Proof - HIDDEN ON MOBILE TO SAVE SPACE */}
             <motion.div 
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="flex items-center gap-4 bg-black/40 backdrop-blur-md border border-white/10 py-1.5 pl-1.5 pr-6 rounded-full mb-6 hover:bg-black/50 transition-all cursor-default select-none shadow-lg"
+              className="hidden md:flex items-center gap-4 bg-black/40 backdrop-blur-md border border-white/10 py-1.5 pl-1.5 pr-6 rounded-full mb-6 hover:bg-black/50 transition-all cursor-default select-none shadow-lg"
             >
               <div className="flex -space-x-3">
                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=48&h=48&q=60&fm=webp" alt="Client" width="32" height="32" className="w-9 h-9 rounded-full border-2 border-slate-700 object-cover" />
@@ -150,18 +150,18 @@ const Hero = () => {
               </div>
             </motion.div>
             
-            {/* Headline - Typography Tuned */}
-            <h1 className="text-[2.75rem] leading-[1.05] sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-4 md:mb-6 tracking-tight drop-shadow-2xl shadow-black/50">
+            {/* Headline - Typography Tuned for Mobile Compactness */}
+            <h1 className="text-[2rem] leading-[1.1] sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-3 md:mb-6 tracking-tight drop-shadow-2xl shadow-black/50">
               Reclaim Your <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-white to-sky-100">Weekends.</span>
             </h1>
             
-            <p className="text-sm sm:text-lg md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-lg hidden sm:block">
+            <p className="hidden sm:block text-sm sm:text-lg md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed max-w-sm sm:max-w-xl mx-auto lg:mx-0 font-medium drop-shadow-lg">
               Don't spend your free time cleaning. We bring 5-star hotel standards to your home.
             </p>
              {/* Mobile only short tagline */}
-            <p className="text-sm text-blue-50/90 mb-6 font-medium drop-shadow-md sm:hidden max-w-[280px]">
-                5-star hotel standards for your home. <br/>Licensed, insured, and 100% guaranteed.
+            <p className="text-xs text-blue-50/90 mb-4 font-medium drop-shadow-md sm:hidden max-w-[280px]">
+                5-star hotel standards. 100% guaranteed.
             </p>
 
             <div className="hidden lg:flex flex-row flex-wrap justify-start gap-4 text-sm font-bold">
@@ -187,7 +187,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4, ease: "backOut" }}
             className="lg:col-span-6 w-full flex justify-center lg:justify-end"
           >
-            <div className="transform md:translate-y-0 relative group w-full -mt-4 md:mt-0">
+            <div className="transform md:translate-y-0 relative group w-full -mt-2 md:mt-0">
               <div className="relative z-20" id="lead-quote-form">
                 <LeadForm />
               </div>
