@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, HTMLMotionProps, Variants } from 'framer-motion';
-import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, DollarSign, Lock, CheckCircle, Tag, Info, Clock, Box, FileCheck, CreditCard, Gem, CalendarDays } from 'lucide-react';
-import { LeadFormData, PRICING_CONFIG } from '../types';
+import { Loader2, ArrowRight, User, Phone, MapPin, Mail, Sparkles, ChevronDown, X, ShieldCheck, Receipt, Home, Dog, Cat, Calendar, Check, ArrowLeft, Lock, CheckCircle, Tag, Info, Clock, Box, FileCheck, Gem, CalendarDays, Gift } from 'lucide-react';
+import { LeadFormData } from '../types';
 
 // --- Types & Constants within Component ---
 
@@ -11,16 +11,17 @@ const STEPS = {
   SERVICE_SELECTION: 3,
 };
 
+// Simplified options without pricing logic
 const ONE_TIME_SERVICES = [
-  { id: 'design-time', label: 'Design with Time', multiplier: 1.0, desc: 'Standard customizable clean.' },
-  { id: 'deep-clean', label: 'Deep Clean', multiplier: 1.3, tag: 'High Demand', desc: 'Thorough top-to-bottom scrub.' },
-  { id: 'move-in-out', label: 'Move-In / Move-Out', multiplier: 1.5, desc: 'Empty home turnaround.' },
+  { id: 'design-time', label: 'Standard Clean', desc: 'Perfect for maintenance.' },
+  { id: 'deep-clean', label: 'Deep Clean', tag: 'High Demand', desc: 'Thorough top-to-bottom scrub.' },
+  { id: 'move-in-out', label: 'Move-In / Move-Out', desc: 'Empty home turnaround.' },
 ];
 
 const RECURRING_SERVICES = [
-  { id: 'weekly', label: 'Weekly - Premium', discount: 0.20, tag: '💎 Best Value', desc: 'Maximize savings (20% Off)' },
-  { id: 'bi-weekly', label: 'Every 2 Weeks', discount: 0.15, tag: '🔥 Most Popular', desc: 'Perfect balance (15% Off)' },
-  { id: 'monthly', label: 'Every 4 Weeks', discount: 0.10, desc: 'Consistent clean (10% Off)' },
+  { id: 'weekly', label: 'Weekly', tag: '💎 Max Savings', desc: 'Keep it spotless effortlessly.' },
+  { id: 'bi-weekly', label: 'Every 2 Weeks', tag: '🔥 Most Popular', desc: 'The perfect balance.' },
+  { id: 'monthly', label: 'Every 4 Weeks', desc: 'Consistent maintenance.' },
 ];
 
 // --- Helper Components ---
@@ -118,8 +119,8 @@ const SuccessModal: React.FC<{ onClose: () => void; name: string }> = ({ onClose
             </div>
 
             <div className="text-center mb-8">
-                <h3 className="text-3xl font-extrabold text-slate-900 mb-2">You're All Set!</h3>
-                <p className="text-slate-500 font-medium text-lg">Thanks, {firstName}. We've received your request.</p>
+                <h3 className="text-3xl font-extrabold text-slate-900 mb-2">Quote Requested!</h3>
+                <p className="text-slate-500 font-medium text-lg">Thanks, {firstName}. We'll send your custom price shortly.</p>
             </div>
 
             <div className="bg-slate-50 rounded-2xl border border-slate-100 p-5 mb-6 relative overflow-hidden">
@@ -131,11 +132,11 @@ const SuccessModal: React.FC<{ onClose: () => void; name: string }> = ({ onClose
                 <div className="space-y-4">
                     <div className="flex gap-4">
                         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                            <FileCheck className="w-5 h-5 text-brand-blue" strokeWidth={1.5} />
+                            <Gift className="w-5 h-5 text-brand-blue" strokeWidth={1.5} />
                         </div>
                         <div>
-                            <p className="text-sm font-bold text-slate-900">1. Reviewing Details</p>
-                            <p className="text-xs text-slate-500 leading-snug">Our team is reviewing your home details for accuracy.</p>
+                            <p className="text-sm font-bold text-slate-900">Discount Applied</p>
+                            <p className="text-xs text-slate-500 leading-snug">Your offer has been attached to your profile.</p>
                         </div>
                     </div>
                     
@@ -144,8 +145,8 @@ const SuccessModal: React.FC<{ onClose: () => void; name: string }> = ({ onClose
                             <Phone className="w-5 h-5 text-amber-600" strokeWidth={1.5} />
                         </div>
                         <div>
-                            <p className="text-sm font-bold text-slate-900">2. Confirmation Call</p>
-                            <p className="text-xs text-slate-500 leading-snug">Look for a call from <strong>(843) 297-9935</strong> within 15 mins.</p>
+                            <p className="text-sm font-bold text-slate-900">Confirmation Call</p>
+                            <p className="text-xs text-slate-500 leading-snug">Look for a call from <strong>(843) 297-9935</strong>.</p>
                         </div>
                     </div>
                 </div>
@@ -193,53 +194,6 @@ export const LeadForm: React.FC = () => {
     estimatedPrice: 0,
   });
   
-  // Pricing State
-  const [priceDetails, setPriceDetails] = useState({
-    base: 0,
-    multiplier: 1,
-    discount: 0,
-    savings: 0,
-    final: 0,
-  });
-
-  // Real-time Pricing Logic
-  useEffect(() => {
-    let basePrice = PRICING_CONFIG.BASE_PRICE;
-    basePrice += (formData.bedrooms * PRICING_CONFIG.PER_BEDROOM);
-    basePrice += (formData.bathrooms * PRICING_CONFIG.PER_BATHROOM);
-
-    let finalPrice = basePrice;
-    let multiplier = 1;
-    let discount = 0;
-
-    if (formData.cleaningType === 'one-time') {
-      const service = ONE_TIME_SERVICES.find(s => s.id === formData.serviceDetail);
-      if (service) {
-        multiplier = service.multiplier || 1;
-        finalPrice *= multiplier;
-      }
-    } else {
-      const service = RECURRING_SERVICES.find(s => s.id === formData.serviceDetail);
-      if (service) {
-        discount = service.discount || 0;
-        finalPrice = finalPrice * (1 - discount);
-      }
-    }
-
-    const calculatedFinal = Math.round(finalPrice);
-    const displayBase = Math.round(formData.cleaningType === 'one-time' ? basePrice * multiplier : basePrice);
-    
-    setPriceDetails({
-        base: displayBase,
-        multiplier,
-        discount,
-        savings: displayBase - calculatedFinal,
-        final: calculatedFinal,
-    });
-
-    setFormData(prev => ({ ...prev, estimatedPrice: calculatedFinal }));
-  }, [formData.bedrooms, formData.bathrooms, formData.cleaningType, formData.serviceDetail]);
-
   // City Lookup Logic
   useEffect(() => {
     if (formData.zipCode.length === 5) {
@@ -326,17 +280,15 @@ export const LeadForm: React.FC = () => {
         body: JSON.stringify({ ...formData, cityDetected: city }),
       });
       if (typeof window !== 'undefined' && (window as any).fbq) {
-          // Track Lead
+          // Track Lead (No value sent as it is an inquiry)
           (window as any).fbq('track', 'Lead', {
-            content_name: 'Instant Quote Booking',
-            value: formData.estimatedPrice,
+            content_name: 'Quote Inquiry',
             currency: 'USD',
           });
           
-          // Track Subscribe (Added)
+          // Track Subscribe
           (window as any).fbq('track', 'Subscribe', {
-            content_name: 'Instant Quote Booking',
-            value: formData.estimatedPrice,
+            content_name: 'Quote Inquiry',
             currency: 'USD',
           });
       }
@@ -403,14 +355,14 @@ export const LeadForm: React.FC = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <h3 className="text-2xl font-extrabold text-slate-900 leading-tight">
-                    {step === 1 && "Get Your Instant Quote"}
+                    {step === 1 && "Get Your Free Quote"}
                     {step === 2 && "Tell Us About Your Home"}
-                    {step === 3 && "Customize Your Clean"}
+                    {step === 3 && "Select Service Type"}
                   </h3>
                   <p className="text-slate-500 text-sm font-medium">
                     {step === 1 && "Start here. It takes less than 30 seconds."}
-                    {step === 2 && "We tailor the price to your specific needs."}
-                    {step === 3 && "Select a plan that fits your schedule."}
+                    {step === 2 && "We'll tailor the team size to your needs."}
+                    {step === 3 && "Choose the plan that suits you best."}
                   </p>
                 </motion.div>
               </AnimatePresence>
@@ -613,7 +565,7 @@ export const LeadForm: React.FC = () => {
                  </motion.div>
                )}
 
-               {/* STEP 3: SERVICE */}
+               {/* STEP 3: SERVICE (SIMPLIFIED - NO PRICE) */}
                {step === 3 && (
                  <motion.div
                    key="step3"
@@ -637,7 +589,7 @@ export const LeadForm: React.FC = () => {
                         onClick={() => { setFormData({...formData, cleaningType: 'recurring', serviceDetail: RECURRING_SERVICES[0].id}) }}
                         className={`flex-1 py-3 px-2 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${formData.cleaningType === 'recurring' ? 'bg-white text-brand-blue shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
                       >
-                        Recurring <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded-full font-extrabold">-20%</span>
+                        Recurring Clean
                       </button>
                    </div>
 
@@ -661,7 +613,7 @@ export const LeadForm: React.FC = () => {
                             {/* Tags */}
                             {option.tag && (
                             <div className={`absolute top-0 right-0 px-3 py-1 rounded-bl-2xl text-[10px] font-bold uppercase tracking-wider z-10 shadow-sm ${
-                                option.tag.includes('Best') || option.tag.includes('Popular')
+                                option.tag.includes('Best') || option.tag.includes('Popular') || option.tag.includes('Max')
                                 ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' 
                                 : 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
                             }`}>
@@ -700,28 +652,14 @@ export const LeadForm: React.FC = () => {
                         </motion.div>
                         ))}
                     </div>
-                   
-                   {/* Price Summary */}
-                   <div className="mt-6 pt-5 border-t border-slate-100">
-                     <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                        <div className="flex justify-between items-center mb-2">
-                           <span className="text-xs text-slate-500 font-medium">Standard Value</span>
-                           <span className="text-xs font-bold text-slate-700">${priceDetails.base}</span>
-                        </div>
-                        {priceDetails.discount > 0 && (
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-xs text-green-600 font-bold flex items-center gap-1">
-                                    <Tag className="w-3 h-3" /> Plan Savings
-                                </span>
-                                <span className="text-xs font-bold text-green-600">-${priceDetails.savings}</span>
-                            </div>
-                        )}
-                        <div className="flex justify-between items-end pt-2 border-t border-slate-200 border-dashed mt-2">
-                           <span className="text-sm font-bold text-slate-900">Total Estimate</span>
-                           <span className="text-2xl font-extrabold text-brand-blue">${priceDetails.final}</span>
-                        </div>
-                     </div>
-                   </div>
+
+                    {/* Friendly Note */}
+                    <div className="mt-4 p-4 bg-blue-50 rounded-2xl flex items-start gap-3">
+                         <Info className="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" />
+                         <p className="text-xs text-slate-600 leading-relaxed">
+                            <strong>Note:</strong> Pricing depends on home condition. We'll provide a custom quote immediately after you claim your offer.
+                         </p>
+                    </div>
 
                  </motion.div>
                )}
@@ -740,22 +678,18 @@ export const LeadForm: React.FC = () => {
                 </button>
              ) : (
                <div className="flex gap-4 items-center">
-                  <div className="flex flex-col justify-center min-w-0">
-                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Est. Total</p>
-                     <p className="text-3xl font-extrabold text-slate-900 flex items-baseline leading-none">
-                        <span className="text-lg mr-0.5 text-slate-400 font-medium">$</span>{formData.estimatedPrice}
-                     </p>
-                  </div>
-                  
                   <button 
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="flex-1 h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden"
+                    className="flex-1 h-14 bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:brightness-105 active:scale-[0.98] transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group"
                   >
-                    <span className="relative z-10 flex items-center gap-2">
-                       {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Reserve Slot"}
+                    {/* Shine Effect */}
+                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out skew-x-12" />
+                    
+                    <span className="relative z-10 flex items-center gap-2 text-lg">
+                       {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Claim Offer & Get Quote"}
                     </span>
-                    {!isSubmitting && <span className="relative z-10 text-[10px] opacity-80 font-medium">No payment required today</span>}
+                    {!isSubmitting && <span className="relative z-10 text-[10px] opacity-80 font-medium tracking-wide">Lock in your rate today</span>}
                   </button>
                </div>
              )}
